@@ -1,4 +1,3 @@
-
 class PayloadRequest < ActiveRecord::Base
   validates :url_id, presence: true
   validates :requested_at, presence: true
@@ -19,6 +18,11 @@ class PayloadRequest < ActiveRecord::Base
   belongs_to :ip
 
   def self.average_response_time
-    PayloadRequest.average(:responded_in).round(2)
+    self.average(:responded_in).round(2)
+  end
+
+  def self.resolutions
+    find_by_sql("SELECT height FROM resolutions
+  INNER JOIN payload_requests ON resolutions.id = payload_requests.resolution_id")
   end
 end
