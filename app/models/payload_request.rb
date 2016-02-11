@@ -9,6 +9,7 @@ class PayloadRequest < ActiveRecord::Base
   validates :user_agent_id, presence: true
   validates :resolution_id, presence: true
   validates :ip_id, presence: true
+  validates :client_id, presence: true
 
   belongs_to :referrer
   belongs_to :request
@@ -17,6 +18,7 @@ class PayloadRequest < ActiveRecord::Base
   belongs_to :resolution
   belongs_to :url
   belongs_to :ip
+  belongs_to :client
 
   def self.average_response_time
     self.average(:responded_in).round(2)
