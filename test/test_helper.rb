@@ -22,17 +22,19 @@ module TestHelpers
     super
   end
 
-  def create_payload_request
+  def raw_payload
     ({
-      url: Url.find_or_create_by(address: 'http://jumpstartlab.com/blog'),
-      requested_at: "2013-02-16 21:38:28 -0700",
-      responded_in: 37,
-      referrer: Referrer.find_or_create_by(address: 'http://jumpstartlab.com'),
-      request: Request.find_or_create_by(verb: "GET"),
-      event: Event.find_or_create_by(name: 'socialLogin'),
-      user_agent: UserAgent.find_or_create_by(browser: "Chrome", platform: "Macintosh"),
-      resolution: Resolution.find_or_create_by(width: "1920", height: "1280"),
-      ip: Ip.find_or_create_by(address: "63.29.38.211")
+      "url":"http://jumpstartlab.com/blog",
+      "requestedAt":"2013-02-16 21:38:28 -0700",
+      "respondedIn":37,
+      "referredBy":"http://jumpstartlab.com",
+      "requestType":"GET",
+      "parameters":[],
+      "eventName": "socialLogin",
+      "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth":"1920",
+      "resolutionHeight":"1280",
+      "ip":"63.29.38.211"
     })
   end
 end

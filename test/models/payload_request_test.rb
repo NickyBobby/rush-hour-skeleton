@@ -86,13 +86,59 @@ class PayloadRequestTest < Minitest::Test
 end
 
 
-# class CalculationsOnPayloadRequestTest< Minitest::Test
-#   include TestHelpers
-#
-#   def test_average_response_time_all_requests
-#     #setup
-#     pr1 =
-#     #actions
-#     #assertions
-#   end
-# end
+class CalculationsOnPayloadRequestTest< Minitest::Test
+  include TestHelpers
+
+  def test_average_response_time_all_requests
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:respondedIn] = 40
+    rp3 = raw_payload
+    rp3[:respondedIn] = 20
+
+    PayloadRequest.create(PayloadParser.parse(rp1))
+    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadRequest.create(PayloadParser.parse(rp3))
+
+    assert_equal 32.33, PayloadRequest.average_response_time
+  end
+  #
+  #
+  #
+  # def test_resolutions_across_all_requests
+  #   rp1 = raw_payload
+  #   rp2 = raw_payload
+  #   rp2[:resolutionWidth] = "2520"
+  #   rp2[:resolutionHeight] = "1460"
+  #   rp3 = raw_payload
+  #   rp3[:resolutionWidth] = "1920"
+  #   rp3[:resolutionHeight] = "1460"
+  #   rp4 = raw_payload
+  #   rp4[:url] = "http://www.google.com"
+  #   PayloadRequest.create(PayloadParser.parse(rp1))
+  #   PayloadRequest.create(PayloadParser.parse(rp2))
+  #   PayloadRequest.create(PayloadParser.parse(rp3))
+  #   PayloadRequest.create(PayloadParser.parse(rp4))
+  #
+  #   Resolution.create(height: "1010", width: "4000")
+  #   Resolution.create(height: "3333", width: "5000")
+  #
+  #   assert_equal 4, PayloadRequest.all.length
+  #   assert_equal [], PayloadRequest.resolutions
+  #
+  # end
+  #
+  # def test_events_listed_received_listed_from_most_to_least
+  #   rp1 = raw_payload
+  #   5.times do
+  #     PayloadRequest.create(PayloadParser.parse(rp1))
+  #   end
+  #   require 'pry'; binding.pry
+  #   assert_equal 5, PayloadRequest.all.count
+  #   #assert_equal
+  #
+  #   assert_equal ["socialLogin", "grumpyCats"], PayloadRequest.events
+  # end
+
+
+end
