@@ -129,17 +129,74 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
   #
   # end
   #
-  # def test_events_listed_received_listed_from_most_to_least
-  #   rp1 = raw_payload
-  #   5.times do
-  #     PayloadRequest.create(PayloadParser.parse(rp1))
-  #   end
-  #   require 'pry'; binding.pry
-  #   assert_equal 5, PayloadRequest.all.count
-  #   #assert_equal
-  #
-  #   assert_equal ["socialLogin", "grumpyCats"], PayloadRequest.events
-  # end
+  def test_events_listed_received_listed_from_most_to_least
+    rp1 = raw_payload
+    5.times do
+      PayloadRequest.create(PayloadParser.parse(rp1))
+    end
+
+    rp2 = raw_payload
+    rp2[:eventName]="grumpyCats"
+    3.times do
+      PayloadRequest.create(PayloadParser.parse(rp2))
+    end
+    #require 'pry'; binding.pry
+    assert_equal 8, PayloadRequest.all.count
+
+    assert_equal ["socialLogin", "grumpyCats"], PayloadRequest.ranked_events
+  end
+
+  def test_returns_list_of_all_screen_resolutions_across_all_requests
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:resolutionWidth] = "2520"
+    rp2[:resolutionHeight] = "1460"
+    rp3 = raw_payload
+    rp3[:resolutionWidth] = "1920"
+    rp3[:resolutionHeight] = "1460"
+    rp4 = raw_payload
+    rp4[:url] = "http://www.google.com"
+    PayloadRequest.create(PayloadParser.parse(rp1))
+    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadRequest.create(PayloadParser.parse(rp3))
+    PayloadRequest.create(PayloadParser.parse(rp4))
+    Resolution.create(height: "1010", width: "4000")
+    Resolution.create(height: "3333", width: "5000")
+
+    assert_equal ["1920 x 1280", "2520 x 1460", "1920 x 1460"], PayloadRequest.requested_resolutions
+   end
+
+  def test_returns_list_of_all_user_agents_browsers
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:userAgent] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0"
+    rp3 = raw_payload
+    rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
+    rp4 = raw_payload
+    rp4[:url] = "http://www.google.com"
+    PayloadRequest.create(PayloadParser.parse(rp1))
+    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadRequest.create(PayloadParser.parse(rp3))
+    PayloadRequest.create(PayloadParser.parse(rp4))
+
+    assert_equal ["Chrome", "Firefox", "IE"], PayloadRequest.user_agent_browsers
+  end
+
+  def test_returns_list_of_all_user_agents_os
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:userAgent] = "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"
+    rp3 = raw_payload
+    rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
+    rp4 = raw_payload
+    rp4[:url] = "http://www.google.com"
+    PayloadRequest.create(PayloadParser.parse(rp1))
+    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadRequest.create(PayloadParser.parse(rp3))
+    PayloadRequest.create(PayloadParser.parse(rp4))
+
+    assert_equal ["Mac OS X 10.8.2", "Linux", "Windows 7"], PayloadRequest.user_agent_os
+  end
 
   def test_max_response_time_across_all_requests
     rp1 = raw_payload
@@ -211,154 +268,5 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     assert_equal ["GET", "hey now"], PayloadRequest.find_all_http_verbs
   end
 
-  def test_returns_list_of_URLs_from_most_frequent_to_least_frequent
-    rp1 = raw_payload
-    rp2 = raw_payload
-    rp2[:url] = "www.google.com"
-    rp3 = raw_payload
-    rp3[:url] = "www.google.com"
-    rp4 = raw_payload
-    rp4[:url] = "www.turing.io"
-    rp5 = raw_payload
-    rp6 = raw_payload
-
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
-    PayloadRequest.create(PayloadParser.parse(rp6))
-
-    assert_equal ["http://jumpstartlab.com/blog", "www.google.com", "www.turing.io"], PayloadRequest.return_ordered_list_of_urls
-  end
-
-  def test_find_max_response_time_for_specific_URL
-    rp1 = raw_payload
-    rp2 = raw_payload
-    rp2[:respondedIn] = 40
-    rp2[:url] = "www.google.com"
-    rp3 = raw_payload
-    rp3[:respondedIn] = 50
-    rp3[:url] = "www.google.com"
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
-
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
-    PayloadRequest.create(PayloadParser.parse(rp6))
-    url = Url.all.first
-    url2 = Url.all.last
-
-    assert_equal 80, url.find_max_response_time
-    assert_equal 50, url2.find_max_response_time
-  end
-
-  def test_find_min_response_time_for_specific_URL
-    rp1 = raw_payload
-    rp2 = raw_payload
-    rp2[:respondedIn] = 40
-    rp2[:url] = "www.google.com"
-    rp3 = raw_payload
-    rp3[:respondedIn] = 50
-    rp3[:url] = "www.google.com"
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
-
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
-    PayloadRequest.create(PayloadParser.parse(rp6))
-    url = Url.all.first
-    url2 = Url.all.last
-
-    assert_equal 37, url.find_min_response_time
-    assert_equal 40, url2.find_min_response_time
-  end
-
-  def test_returns_list_of_response_times_for_specific_url
-    rp1 = raw_payload
-    rp2 = raw_payload
-    rp2[:respondedIn] = 40
-    rp2[:url] = "www.google.com"
-    rp3 = raw_payload
-    rp3[:respondedIn] = 50
-    rp3[:url] = "www.google.com"
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
-
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
-    PayloadRequest.create(PayloadParser.parse(rp6))
-    url = Url.all.first
-    url2 = Url.all.last
-
-    assert_equal [80, 70, 60, 37], url.list_response_times
-    assert_equal [50, 40], url2.list_response_times
-  end
-
-  def test_average_response_time_for_specific_url
-    rp1 = raw_payload
-    rp2 = raw_payload
-    rp2[:respondedIn] = 40
-    rp2[:url] = "www.google.com"
-    rp3 = raw_payload
-    rp3[:respondedIn] = 50
-    rp3[:url] = "www.google.com"
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
-
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
-    PayloadRequest.create(PayloadParser.parse(rp6))
-    url = Url.all.first
-    url2 = Url.all.last
-
-
-    assert_equal 61.75, url.find_average_response_time
-    assert_equal 45, url2.find_average_response_time
-  end
-
-  def raw_payload
-    ({
-      "url":"http://jumpstartlab.com/blog",
-      "requestedAt":"2013-02-16 21:38:28 -0700",
-      "respondedIn":37,
-      "referredBy":"http://jumpstartlab.com",
-      "requestType":"GET",
-      "parameters":[],
-      "eventName": "socialLogin",
-      "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-      "resolutionWidth":"1920",
-      "resolutionHeight":"1280",
-      "ip":"63.29.38.211"
-    })
-  end
 
 end
