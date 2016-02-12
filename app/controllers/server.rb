@@ -24,7 +24,7 @@ module RushHour
     end
 
     post '/sources/:identifier/data' do |identifier|
-      raw_payload = params[:payload]
+      raw_payload = JSON.parse(params[:payload], symbolize_names: true)
       # Check if client exists if it doesnt
       client = Client.find_by(identifier: identifier)
       unless client
