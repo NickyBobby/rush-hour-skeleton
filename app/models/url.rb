@@ -45,4 +45,11 @@ class Url < ActiveRecord::Base
     payload_requests.average(:responded_in).round(2)
   end
 
+  def self.most_requests
+    #.joins(:payload_requests).group("urls.address").count
+    self.all.sort_by do |url|
+      -1*url.payload_requests.count
+    end
+  end
+
 end

@@ -25,7 +25,7 @@ class PayloadRequestTest < Minitest::Test
   end
 
   def test_can_add_a_payload_request_to_database
-    pr0 = PayloadRequest.new(example_payload)
+    pr0 = PayloadRequest.new(PayloadParser.parse(raw_payload))
     assert pr0.save
 
     pr = PayloadRequest.all.first
@@ -37,7 +37,7 @@ class PayloadRequestTest < Minitest::Test
     assert_equal "GET", pr.request.verb
     assert_equal "socialLogin", pr.event.name
     assert_equal "Chrome", pr.user_agent.browser
-    assert_equal "Macintosh", pr.user_agent.platform
+    assert_equal "Mac OS X 10.8.2", pr.user_agent.platform
     assert_equal "1920", pr.resolution.width
     assert_equal "1280", pr.resolution.height
     assert_equal "63.29.38.211", pr.ip.address
@@ -140,7 +140,6 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     3.times do
       PayloadRequest.create(PayloadParser.parse(rp2))
     end
-    #require 'pry'; binding.pry
     assert_equal 8, PayloadRequest.all.count
 
     assert_equal ["socialLogin", "grumpyCats"], PayloadRequest.ranked_events

@@ -96,7 +96,6 @@ class UrlTest < Minitest::Test
     PayloadRequest.create(PayloadParser.parse(rp6))
     url = Url.first
     url2 = Url.last
-
     assert_equal 37, url.find_min_response_time
     assert_equal 40, url2.find_min_response_time
   end
