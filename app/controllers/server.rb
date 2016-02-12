@@ -1,4 +1,5 @@
 require 'pry'
+require 'json'
 
 module RushHour
   class Server < Sinatra::Base
@@ -7,8 +8,14 @@ module RushHour
     end
 
     post '/sources' do
-      #create a Client
-      # send back the response
+      client = Client.new(identifier: params["identifier"], root_url: params["rootUrl"])
+      if client.save
+        status 200
+        body JSON.generate({:identifier => "#{client.identifier}"})
+      else
+        status 400
+        body "SO MUCH FAIL"
+      end
     end
   end
 end
