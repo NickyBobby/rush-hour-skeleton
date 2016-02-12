@@ -12,6 +12,11 @@ require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
 
 module TestHelpers
+  include Rack::Test::Methods
+  def app
+    RushHour::Server
+  end
+
   def setup
     DatabaseCleaner.start
     super
