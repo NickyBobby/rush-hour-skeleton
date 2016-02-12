@@ -1,6 +1,8 @@
 require 'user_agent_parser'
 class PayloadParser
   def self.parse(data)
+  # def self.parse(data, identifier)
+  # client = Client.find_by(identifier: identifier)
     ua = UserAgentParser.parse(data[:userAgent])
     client_details = get_client_details(data[:url])
     ({
@@ -14,7 +16,10 @@ class PayloadParser
       resolution: Resolution.find_or_create_by(width: data[:resolutionWidth], height: data[:resolutionHeight]),
       ip: Ip.find_or_create_by(address: data[:ip]),
       client: Client.find_or_create_by(identifier: client_details[0], root_url: client_details[1])
+      # DELETE client: Client.find_or_create_by(identifier: client_details[0], root_url: client_details[1])
     })
+    # client.payload_requests.create(details)
+    # Payloads.create(data.merge(client_id: client.id))
   end
 
   def self.get_client_details(url)

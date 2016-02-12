@@ -140,7 +140,6 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     3.times do
       PayloadRequest.create(PayloadParser.parse(rp2))
     end
-    #require 'pry'; binding.pry
     assert_equal 8, PayloadRequest.all.count
 
     assert_equal ["socialLogin", "grumpyCats"], PayloadRequest.ranked_events
