@@ -8,13 +8,19 @@ module RushHour
     end
 
     post '/sources' do
-      client = Client.new(identifier: params["identifier"], root_url: params["rootUrl"])
-      if client.save
-        status 200
+      client = Client.find_or_initialize_by(identifier: params["identifier"], root_url: params["rootUrl"])
+
+      if !client.id && client.valid?
+        client.save
         body JSON.generate({:identifier => "#{client.identifier}"})
+      elsif client.id
+        binding.pry
+        status 403
+        body "Identifier already exists brah/gal."
       else
+        messages = client.errors.messages
         status 400
-        body "SO MUCH FAIL"
+        body "Error: #{messages}"
       end
     end
   end
