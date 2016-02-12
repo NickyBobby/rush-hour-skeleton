@@ -3,6 +3,7 @@ class PayloadParser
   def self.parse(data)
   # def self.parse(data, identifier)
   # client = Client.find_by(identifier: identifier)
+  binding.pry
     ua = UserAgentParser.parse(data[:userAgent])
     client_details = get_client_details(data[:url])
     ({

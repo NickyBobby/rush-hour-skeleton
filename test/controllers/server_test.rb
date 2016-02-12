@@ -49,4 +49,17 @@ class ServerTest < Minitest::Test
     # assert_equal "{\"identifier\":\"jumpstartlab\"}", last_response.body
   end
 
+  def test_returns_success_when_can_post_valid_payload_request
+    post '/sources', {identifier: 'jumpstartlab', rootUrl: 'http://jumpstartlab.com' }
+    assert_equal 1, Client.count
+    assert_equal 200, last_response.status
+    assert_equal "{\"identifier\":\"jumpstartlab\"}", last_response.body
+
+    post '/sources/jumpstartlab/data', JSON.generate(raw_payload)
+    assert_equal 1, PayloadRequest.count
+    assert_equal "jumpstartlab", PayloadRequest.client.identifier
+    assert_equal 200, last_response.status
+    assert_equal "Great success", last_response.body
+  end
+
 end

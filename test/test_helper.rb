@@ -7,7 +7,9 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'capybara/dsl'
+require 'tilt/erb'
 require 'database_cleaner'
+require 'json'
 
 DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
 
