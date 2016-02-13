@@ -230,8 +230,8 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     PayloadParser.parse(rp3, "jumpstartlab")
     PayloadParser.parse(rp4, "jumpstartlab")
     PayloadParser.parse(rp5, "jumpstartlab")
-  
-    assert_equal ["GET", "hey now"], PayloadRequest.find_all_http_verbs
+
+    assert_equal ["hey now", "GET"], PayloadRequest.find_all_http_verbs
   end
 
 

@@ -6,7 +6,7 @@ module RushHour
     not_found do
       erb :error
     end
-    
+
     post '/sources' do
       client = Client.find_or_initialize_by(identifier: params["identifier"], root_url: params["rootUrl"])
 
@@ -57,8 +57,7 @@ module RushHour
 
     get '/sources/:identifier' do |identifier|
       @client = Client.find_by(identifier: identifier)
-      binding.pry
-      #@stats = Client.stats
+      @stats = @client.stats
       erb :stats
     end
   end

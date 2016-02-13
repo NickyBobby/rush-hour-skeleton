@@ -4,23 +4,185 @@ class UserCanViewStatsTest < FeatureTest
 
   def test_client_can_view_statistics
     Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
-
     visit '/sources/nickybobby'
-    save_and_open_page
+    #save_and_open_page
     assert page.has_content?("nickybobby")
     within ("#stats") do
-      assert page.has_content?("Average response time")
-      assert page.has_content?("Max response time")
-      assert page.has_content?("Min response time")
-      assert page.has_content?("Most frequent request type")
-      assert page.has_content?("All HTTP verbs used")
-      assert page.has_content?("Requested URLs")
-      assert page.has_content?("Web browser breakdown")
-      assert page.has_content?("OS breakdown")
-      assert page.has_content?("Screen resolutions")
+      assert page.has_content?("Average response time: ")
+      assert page.has_content?("Max response time: ")
+      assert page.has_content?("Min response time: ")
+      assert page.has_content?("Most frequent request type: ")
+      assert page.has_content?("All HTTP verbs used: ")
+      assert page.has_content?("Requested URLs: ")
+      assert page.has_content?("Web browser breakdown: ")
+      assert page.has_content?("OS breakdown: ")
+      assert page.has_content?("Screen resolutions: ")
     end
-
   end
+
+  def test_client_can_view_average_response_time
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:respondedIn] = 40
+    rp3 = raw_payload
+    rp3[:respondedIn] = 20
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+
+    visit '/sources/nickybobby'
+    within ("#stats") do
+      assert page.has_content?("Average response time: 32.33 ms")
+    end
+  end
+
+  def test_client_can_view_max_response_time
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:respondedIn] = 40
+    rp3 = raw_payload
+    rp3[:respondedIn] = 20
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+
+    visit '/sources/nickybobby'
+    within ("#stats") do
+      assert page.has_content?("Max response time: 40 ms")
+    end
+  end
+
+  def test_client_can_view_min_response_time
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:respondedIn] = 40
+    rp3 = raw_payload
+    rp3[:respondedIn] = 20
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+
+    visit '/sources/nickybobby'
+    within ("#stats") do
+      assert page.has_content?("Min response time: 20 ms")
+    end
+  end
+
+  def test_find_the_most_frequent_request_type
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:requestType] = "POST"
+    rp3 = raw_payload
+    rp3[:requestType] = "POST"
+    rp4 = raw_payload
+    rp4[:requestType] = "POST"
+
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+    PayloadParser.parse(rp4, "nickybobby")
+
+    visit '/sources/nickybobby'
+
+    within ("#stats") do
+      assert page.has_content?("Most frequent request type: POST")
+    end
+  end
+
+  def test_find_the_most_frequent_request_type
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+
+    rp1 = raw_payload
+    rp1[:requestType] = "PUT"
+    rp2 = raw_payload
+    rp2[:requestType] = "POST"
+    rp3 = raw_payload
+    rp3[:requestType] = "POST"
+    rp4 = raw_payload
+    rp5 = raw_payload
+    rp6 = raw_payload
+    rp6[:requestType] = "POST"
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+    PayloadParser.parse(rp4, "nickybobby")
+    PayloadParser.parse(rp5, "nickybobby")
+    PayloadParser.parse(rp6, "nickybobby")
+
+    visit '/sources/nickybobby'
+    #save_and_open_page
+    within ("#stats") do
+      assert page.has_content?("All HTTP verbs used: POST, GET, PUT")
+    end
+  end
+
+  def test_returns_list_of_all_requested_urls
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+    #Client.create(identifier: "google", root_url: "http://google.com")
+
+    rp1 = raw_payload
+    rp1[:url] = "http://www.nickybobby.com"
+    rp2 = raw_payload
+    rp2[:url] = "http://www.nickybobby.com"
+    rp3 = raw_payload
+    rp3[:url] = "http://www.nickybobby.com"
+
+    rp4 = raw_payload
+    rp4[:url] = "http://www.google.com"
+    # binding.pry
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+    PayloadParser.parse(rp4, "nickybobby")
+
+    # assert_equal 2, PayloadRequest.count
+    visit '/sources/nickybobby'
+    #save_and_open_page
+    within ("#stats") do
+      assert page.has_content?("Requested URLs: http://www.nickybobby.com, http://www.google.com")
+    end
+  end
+
+  def test_returns_list_of_all_browsers
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:userAgent] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0"
+    rp3 = raw_payload
+    rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
+    rp4 = raw_payload
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+    PayloadParser.parse(rp4, "nickybobby")
+
+    visit '/sources/nickybobby'
+    #save_and_open_page
+    within ("#stats") do
+      assert page.has_content?("Web browser breakdown: Chrome, Firefox, IE")
+    end
+  end
+
+
+
+
+
+
+
+
 end
 
 # visit '/'
@@ -35,6 +197,17 @@ end
 #       assert page.has_content?("pizza")
 #     end
 #     save_and_open_page
+
+# <h1>Statistics for: <%= @client.identifier %></h1>
+# <h3>Average response time: <%= @stats[:average_response_time] %></h3>
+# <h3>Max response time: <%= @stats[:max_response_time] %></h3>
+# <h3>Min response time: <%= @stats[:min_response_time] %></h3>
+# <h3>Most frequent request type: <%= @stats[:most_frequent_request] %></h3>
+# <h3>All HTTP verbs used: <%= @stats[:all_http_verbs] %></h3>
+# <h3>Requested URLs: <%= @stats[:requested_urls] %></h3>
+# <h3>Web browser breakdown: <%= @stats[:browsers] %></h3>
+# <h3>OS breakdown: <%= @stats[:os] %></h3>
+# <h3>Screen resolutions: <%= @stats[:resolutions] %></h3>
 
 # Average Response time across all requests
 # Max Response time across all requests

@@ -1,13 +1,13 @@
 
 <div class = "col-md-8 col-md-offset-2" id="stats">
   <h1>Statistics for: <%= @client.identifier %></h1>
-  <h3>Average response time:</h3>
-  <h3>Max response time:</h3>
-  <h3>Min response time:</h3>
-  <h3>Most frequent request type:</h3>
-  <h3>All HTTP verbs used:</h3>
-  <h3>Requested URLs:</h3>
-  <h3>Web browser breakdown:</h3>
-  <h3>OS breakdown:</h3>
-  <h3>Screen resolutions:</h3>
+  <h3>Average response time: <%= @stats[:average_response_time] %> ms</h3>
+  <h3>Max response time: <%= @stats[:max_response_time] %> ms</h3>
+  <h3>Min response time: <%= @stats[:min_response_time] %> ms</h3>
+  <h3>Most frequent request type: <%= @stats[:most_frequent_request] %></h3>
+  <h3>All HTTP verbs used: <%= @stats[:all_http_verbs] %></h3>
+  <h3>Requested URLs: <%= @stats[:requested_urls] %></h3>
+  <h3>Web browser breakdown: <%= @stats[:browsers] %></h3>
+  <h3>OS breakdown: <%= @stats[:os] %></h3>
+  <h3>Screen resolutions: <%= @stats[:resolutions] %></h3>
 </div>

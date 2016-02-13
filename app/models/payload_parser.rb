@@ -25,7 +25,7 @@ class PayloadParser
       # DELETE client: Client.find_or_create_by(identifier: client_details[0], root_url: client_details[1])
     })
     pr = PayloadRequest.new(details.merge(client_id: client.id))
-    #binding.pry
+    # binding.pry
 
     pr.save
     unless pr.valid?
