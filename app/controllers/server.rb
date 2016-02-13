@@ -32,13 +32,23 @@ module RushHour
       raw_payload = JSON.parse(params[:payload], symbolize_names: true)
       # Check if client exists if it doesnt
       client = Client.find_by(identifier: identifier)
-      unless client
+      #errors =
+      #binding.pry
+      if !client
         status 403
         body "#{identifier} not found. Cool story brah/gal."
+      elsif PayloadRequest.find_by(PayloadParser.get_payload_details(raw_payload, client))# false if we have seen this payload request before
+        status 403
+        body "Error: Payload Request already received"
+      elsif errors = PayloadParser.parse(raw_payload, identifier)
+        status 400
+        body "Error: "
       else
-        PayloadParser.parse(raw_payload, identifier)
-        # pr = PayloadRequest.new()
-        # pr.save
+        # # I ahve a client and the payload is valid
+        # binding.pry
+        # PayloadParser.parse(raw_payload, identifier)
+        # # pr = PayloadRequest.new()
+        # # pr.save
         status 200
         body "Great success"
       end

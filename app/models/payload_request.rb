@@ -24,11 +24,6 @@ class PayloadRequest < ActiveRecord::Base
     self.average(:responded_in).round(2)
   end
 
-  def self.resolutions
-    find_by_sql("SELECT height FROM resolutions
-  INNER JOIN payload_requests ON resolutions.id = payload_requests.resolution_id")
-  end
-
   def self.find_max_response_time
     self.maximum(:responded_in)
   end

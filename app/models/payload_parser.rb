@@ -3,7 +3,7 @@ class PayloadParser
   def self.parse(data, identifier = "google")
   # def self.parse(data, identifier)
     client = Client.find_by(identifier: identifier)
-    if data[:userAgent]
+    if data[:userAgent] && !data[:userAgent].empty?
       ua = UserAgentParser.parse(data[:userAgent])
       browser = ua.family
       platform = ua.os.to_s
@@ -24,16 +24,37 @@ class PayloadParser
       # client: Client.find_or_create_by(identifier: client_details[0], root_url: client_details[1])
       # DELETE client: Client.find_or_create_by(identifier: client_details[0], root_url: client_details[1])
     })
-  
     pr = PayloadRequest.new(details.merge(client_id: client.id))
-
     #binding.pry
-    if pr.valid?
-      pr.save
-    end
 
+    pr.save
+    unless pr.valid?
+      pr.errors
+    end
   end
 
+  def self.get_payload_details(data, client)
+    if data[:userAgent] && !data[:userAgent].empty?
+      ua = UserAgentParser.parse(data[:userAgent])
+      browser = ua.family
+      platform = ua.os.to_s
+    else
+      browser = nil
+      platform = nil
+    end
+    ({
+      url: Url.find_or_create_by(address: data[:url]),
+      requested_at: data[:requestedAt],
+      responded_in: data[:respondedIn],
+      referrer: Referrer.find_or_create_by(address: data[:referredBy]),
+      request: Request.find_or_create_by(verb: data[:requestType]),
+      event: Event.find_or_create_by(name: data[:eventName]),
+      user_agent: UserAgent.find_or_create_by(browser: browser, platform: platform),
+      resolution: Resolution.find_or_create_by(width: data[:resolutionWidth], height: data[:resolutionHeight]),
+      ip: Ip.find_or_create_by(address: data[:ip]),
+      client: client
+    })
+  end
   # def self.get_client_details(url)
   #   binding.pry
   #   url = url[7..-1] if url.start_with?("http://")

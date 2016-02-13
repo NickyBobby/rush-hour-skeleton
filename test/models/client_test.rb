@@ -29,51 +29,59 @@ class ClientTest < Minitest::Test
   end
 
   def test_client_has_urls
-    PayloadRequest.create(PayloadParser.parse(raw_payload))
+    PayloadParser.parse(raw_payload, "jumpstartlab")
+    assert_equal 1, PayloadRequest.count
+
     assert_equal 1, Client.count
     client = Client.first
     assert_equal "jumpstartlab", client.identifier
-    assert_equal "http://jumpstartlab.com", client.root_url
+    assert_equal "http://www.jumpstartlab.com", client.root_url
     assert_equal [Url.find_by(address: "http://jumpstartlab.com/blog")], client.urls
   end
 
   def test_client_has_requests
-    PayloadRequest.create(PayloadParser.parse(raw_payload))
+    PayloadParser.parse(raw_payload, "jumpstartlab")
+    assert_equal 1, PayloadRequest.count
+
     rp2 = raw_payload
     rp2[:requestType] ="POST"
-    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadParser.parse(rp2, "jumpstartlab")
 
     assert_equal 1, Client.count
     client = Client.first
     assert_equal "jumpstartlab", client.identifier
-    assert_equal "http://jumpstartlab.com", client.root_url
+    assert_equal "http://www.jumpstartlab.com", client.root_url
     assert_equal [Request.find_by(verb:"GET"), Request.find_by(verb:"POST")], client.requests
   end
 
   def test_client_has_resolutions
-    PayloadRequest.create(PayloadParser.parse(raw_payload))
+    PayloadParser.parse(raw_payload, "jumpstartlab")
+    assert_equal 1, PayloadRequest.count
+
     rp2 = raw_payload
     rp2[:resolutionWidth] = "2450"
     rp2[:resolutionHeight] = "1380"
-    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadParser.parse(rp2, "jumpstartlab")
 
     assert_equal 1, Client.count
     client = Client.first
     assert_equal "jumpstartlab", client.identifier
-    assert_equal "http://jumpstartlab.com", client.root_url
+    assert_equal "http://www.jumpstartlab.com", client.root_url
     assert_equal [Resolution.find_by(height: "1280"), Resolution.find_by(width: "2450")], client.resolutions
   end
 
   def test_client_has_user_agents
-    PayloadRequest.create(PayloadParser.parse(raw_payload))
+    PayloadParser.parse(raw_payload, "jumpstartlab")
+    assert_equal 1, PayloadRequest.count
+
     rp2 = raw_payload
     rp2[:userAgent] = "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"
-    PayloadRequest.create(PayloadParser.parse(rp2))
+    PayloadParser.parse(rp2, "jumpstartlab")
 
     assert_equal 1, Client.count
     client = Client.first
     assert_equal "jumpstartlab", client.identifier
-    assert_equal "http://jumpstartlab.com", client.root_url
+    assert_equal "http://www.jumpstartlab.com", client.root_url
     assert_equal [UserAgent.find_by(browser: "Chrome"), UserAgent.find_by(browser: "Firefox")], client.user_agents
   end
 end
