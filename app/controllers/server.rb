@@ -57,8 +57,13 @@ module RushHour
 
     get '/sources/:identifier' do |identifier|
       @client = Client.find_by(identifier: identifier)
-      @stats = @client.stats
-      erb :stats
+      if @client
+        @stats = @client.stats
+        erb :stats
+      else
+        @client_identifier = identifier
+        erb :not_registered
+      end
     end
   end
 end
