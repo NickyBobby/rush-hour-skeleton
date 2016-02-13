@@ -7,7 +7,9 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'capybara/dsl'
+require 'tilt/erb'
 require 'database_cleaner'
+require 'json'
 
 DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
 
@@ -27,12 +29,14 @@ module TestHelpers
     super
   end
 
-  def raw_payload
+  def raw_payload(identifier="jumpstartlab")
+    Client.find_or_create_by(identifier: identifier, root_url: "http://www.#{identifier}.com")
+
     ({
-      "url":"http://jumpstartlab.com/blog",
+      "url":"http://#{identifier}.com/blog",
       "requestedAt":"2013-02-16 21:38:28 -0700",
       "respondedIn":37,
-      "referredBy":"http://jumpstartlab.com",
+      "referredBy":"http://#{identifier}.com",
       "requestType":"GET",
       "parameters":[],
       "eventName": "socialLogin",

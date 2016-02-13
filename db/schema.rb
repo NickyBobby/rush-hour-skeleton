@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160211203655) do
+ActiveRecord::Schema.define(version: 20160213002528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20160211203655) do
     t.integer "responded_in"
     t.integer "referrer_id"
     t.integer "request_id"
-    t.string  "parameters",    default: [], array: true
     t.integer "event_id"
     t.integer "user_agent_id"
     t.integer "resolution_id"

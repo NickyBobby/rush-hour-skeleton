@@ -25,8 +25,7 @@ class PayloadRequestTest < Minitest::Test
   end
 
   def test_can_add_a_payload_request_to_database
-    pr0 = PayloadRequest.new(PayloadParser.parse(raw_payload))
-    assert pr0.save
+    PayloadParser.parse(raw_payload, "jumpstartlab")
 
     pr = PayloadRequest.all.first
     assert_equal 1, PayloadRequest.all.count
@@ -41,6 +40,7 @@ class PayloadRequestTest < Minitest::Test
     assert_equal "1920", pr.resolution.width
     assert_equal "1280", pr.resolution.height
     assert_equal "63.29.38.211", pr.ip.address
+    assert_equal "jumpstartlab", pr.client.identifier
     assert_equal 1, pr.url_id
     assert_equal 1, pr.referrer_id
     assert_equal 1, pr.request_id
@@ -48,40 +48,29 @@ class PayloadRequestTest < Minitest::Test
     assert_equal 1, pr.user_agent_id
     assert_equal 1, pr.resolution_id
     assert_equal 1, pr.ip_id
+    assert_equal 1, pr.client_id
   end
 
   def test_will_not_create_payload_request_without_all_params
-    example_payload.keys.each do |key|
-      payload = example_payload
+    keys = raw_payload.keys
+    keys.delete(:parameters)
+    keys.each do |key|
+      payload = raw_payload
       payload.delete(key)
-      PayloadRequest.create(payload)
-      assert_equal 0, PayloadRequest.all.count
+      PayloadParser.parse(payload, "jumpstartlab")
+      assert_equal 0, PayloadRequest.count
     end
   end
 
   def test_will_not_create_payload_request_when_request_details_are_empty
-    example_payload.each do |key,value|
+    raw_payload.each do |key,value|
       if value.class == String
-        payload = example_payload
+        payload = raw_payload
         payload[key] = ""
-        PayloadRequest.create(payload)
-        assert_equal 0, PayloadRequest.all.count
+        PayloadParser.parse(payload, "jumpstartlab")
+        assert_equal 0, PayloadRequest.count
       end
     end
-  end
-
-  def example_payload
-    ({
-      url: Url.find_or_create_by(address: 'http://jumpstartlab.com/blog'),
-      requested_at: "2013-02-16 21:38:28 -0700",
-      responded_in: 37,
-      referrer: Referrer.find_or_create_by(address: 'http://jumpstartlab.com'),
-      request: Request.find_or_create_by(verb: "GET"),
-      event: Event.find_or_create_by(name: 'socialLogin'),
-      user_agent: UserAgent.find_or_create_by(browser: "Chrome", platform: "Macintosh"),
-      resolution: Resolution.find_or_create_by(width: "1920", height: "1280"),
-      ip: Ip.find_or_create_by(address: "63.29.38.211")
-    })
   end
 
 end
@@ -97,50 +86,26 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp3 = raw_payload
     rp3[:respondedIn] = 20
 
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
 
     assert_equal 32.33, PayloadRequest.average_response_time
   end
-  #
-  #
-  #
-  # def test_resolutions_across_all_requests
-  #   rp1 = raw_payload
-  #   rp2 = raw_payload
-  #   rp2[:resolutionWidth] = "2520"
-  #   rp2[:resolutionHeight] = "1460"
-  #   rp3 = raw_payload
-  #   rp3[:resolutionWidth] = "1920"
-  #   rp3[:resolutionHeight] = "1460"
-  #   rp4 = raw_payload
-  #   rp4[:url] = "http://www.google.com"
-  #   PayloadRequest.create(PayloadParser.parse(rp1))
-  #   PayloadRequest.create(PayloadParser.parse(rp2))
-  #   PayloadRequest.create(PayloadParser.parse(rp3))
-  #   PayloadRequest.create(PayloadParser.parse(rp4))
-  #
-  #   Resolution.create(height: "1010", width: "4000")
-  #   Resolution.create(height: "3333", width: "5000")
-  #
-  #   assert_equal 4, PayloadRequest.all.length
-  #   assert_equal [], PayloadRequest.resolutions
-  #
-  # end
-  #
+
+
   def test_events_listed_received_listed_from_most_to_least
     rp1 = raw_payload
     5.times do
-      PayloadRequest.create(PayloadParser.parse(rp1))
+      PayloadParser.parse(rp1, "jumpstartlab")
     end
 
     rp2 = raw_payload
     rp2[:eventName]="grumpyCats"
     3.times do
-      PayloadRequest.create(PayloadParser.parse(rp2))
+      PayloadParser.parse(rp2, "jumpstartlab")
     end
-    assert_equal 8, PayloadRequest.all.count
+    assert_equal 8, PayloadRequest.count
 
     assert_equal ["socialLogin", "grumpyCats"], PayloadRequest.ranked_events
   end
@@ -153,12 +118,12 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp3 = raw_payload
     rp3[:resolutionWidth] = "1920"
     rp3[:resolutionHeight] = "1460"
-    rp4 = raw_payload
+    rp4 = raw_payload("google")
     rp4[:url] = "http://www.google.com"
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+    PayloadParser.parse(rp4, "google")
     Resolution.create(height: "1010", width: "4000")
     Resolution.create(height: "3333", width: "5000")
 
@@ -171,12 +136,12 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp2[:userAgent] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0"
     rp3 = raw_payload
     rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
-    rp4 = raw_payload
+    rp4 = raw_payload("google")
     rp4[:url] = "http://www.google.com"
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+    PayloadParser.parse(rp4, "google")
 
     assert_equal ["Chrome", "Firefox", "IE"], PayloadRequest.user_agent_browsers
   end
@@ -187,12 +152,12 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp2[:userAgent] = "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"
     rp3 = raw_payload
     rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
-    rp4 = raw_payload
+    rp4 = raw_payload("google")
     rp4[:url] = "http://www.google.com"
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+    PayloadParser.parse(rp4, "google")
 
     assert_equal ["Mac OS X 10.8.2", "Linux", "Windows 7"], PayloadRequest.user_agent_os
   end
@@ -204,9 +169,10 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp3 = raw_payload
     rp3[:respondedIn] = 20
 
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+
 
     assert_equal 40, PayloadRequest.find_max_response_time
   end
@@ -218,9 +184,10 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp3 = raw_payload
     rp3[:respondedIn] = 20
 
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+
 
     assert_equal 20, PayloadRequest.find_min_response_time
   end
@@ -237,11 +204,11 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp5[:requestType] = "hey now"
 
 
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+    PayloadParser.parse(rp4, "jumpstartlab")
+    PayloadParser.parse(rp5, "jumpstartlab")
 
     assert_equal "hey now", PayloadRequest.find_most_frequent_request_type
   end
@@ -258,12 +225,12 @@ class CalculationsOnPayloadRequestTest< Minitest::Test
     rp5[:requestType] = "hey now"
 
 
-    PayloadRequest.create(PayloadParser.parse(rp1))
-    PayloadRequest.create(PayloadParser.parse(rp2))
-    PayloadRequest.create(PayloadParser.parse(rp3))
-    PayloadRequest.create(PayloadParser.parse(rp4))
-    PayloadRequest.create(PayloadParser.parse(rp5))
-
+    PayloadParser.parse(rp1, "jumpstartlab")
+    PayloadParser.parse(rp2, "jumpstartlab")
+    PayloadParser.parse(rp3, "jumpstartlab")
+    PayloadParser.parse(rp4, "jumpstartlab")
+    PayloadParser.parse(rp5, "jumpstartlab")
+  
     assert_equal ["GET", "hey now"], PayloadRequest.find_all_http_verbs
   end
 
