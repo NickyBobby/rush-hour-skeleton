@@ -6,12 +6,13 @@ module RushHour
     not_found do
       erb :error
     end
-
+    
     post '/sources' do
       client = Client.find_or_initialize_by(identifier: params["identifier"], root_url: params["rootUrl"])
 
       if !client.id && client.valid?
         client.save
+        status 200
         body JSON.generate({:identifier => "#{client.identifier}"})
       elsif client.id
         status 403
@@ -52,6 +53,13 @@ module RushHour
         status 200
         body "Great success"
       end
+    end
+
+    get '/sources/:identifier' do |identifier|
+      @client = Client.find_by(identifier: identifier)
+      binding.pry
+      #@stats = Client.stats
+      erb :stats
     end
   end
 end
