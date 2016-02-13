@@ -21,9 +21,14 @@ module RushHour
         status 400
         body "Error: #{messages}"
       end
+
+      # status, body = ClientGenerator.new.method(params)
+      # status(status)
+      # body(body)
     end
 
     post '/sources/:identifier/data' do |identifier|
+      #binding.pry
       raw_payload = JSON.parse(params[:payload], symbolize_names: true)
       # Check if client exists if it doesnt
       client = Client.find_by(identifier: identifier)
@@ -31,8 +36,9 @@ module RushHour
         status 403
         body "#{identifier} not found. Cool story brah/gal."
       else
-        pr = PayloadRequest.new(PayloadParser.parse(raw_payload))
-        pr.save
+        PayloadParser.parse(raw_payload, identifier)
+        # pr = PayloadRequest.new()
+        # pr.save
         status 200
         body "Great success"
       end

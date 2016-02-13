@@ -26,7 +26,7 @@ class Url < ActiveRecord::Base
     sorted = gb.sort_by do |key, value|
       -1*value.length
     end
-    sorted.map { |ref, prs| user_agent.address }.first(3)
+    sorted.map { |ua, prs| "#{ua.platform} #{ua.browser}"}.first(3)
   end
 
   def find_max_response_time

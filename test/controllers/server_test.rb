@@ -70,7 +70,16 @@ class ServerTest < Minitest::Test
     assert_equal "jumpstartlab not found. Cool story brah/gal.", last_response.body
   end
 
-  
+  def test_returns_bad_request_if_payload_is_missing
+    post '/sources', {identifier: 'jumpstartlab', rootUrl: 'http://jumpstartlab.com' }
+    post '/sources/jumpstartlab/data', "payload={}"
+    assert_equal 0, PayloadRequest.count
+    assert_equal 1, Client.count
+    assert_equal 400, last_response.status
+    assert_equal "Error: {:identifier=>[\"can't be blank\"]}", last_response.body
+  end
+
+
 
 
 end
