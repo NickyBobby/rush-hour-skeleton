@@ -18,7 +18,9 @@ class Client < ActiveRecord::Base
       most_frequent_request: payload_requests.find_most_frequent_request_type,
       all_http_verbs: payload_requests.find_all_http_verbs.join(", "),
       requested_urls: payload_requests.return_ordered_list_of_urls.join(", "),
-      browsers: payload_requests.user_agent_browsers.join(", ")
+      browsers: payload_requests.user_agent_browsers.join(", "),
+      os: payload_requests.user_agent_os.join(", "),
+      resolutions: payload_requests.requested_resolutions.join(", ")
     })
 
   end

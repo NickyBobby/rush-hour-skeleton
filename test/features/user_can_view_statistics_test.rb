@@ -176,6 +176,54 @@ class UserCanViewStatsTest < FeatureTest
     end
   end
 
+  def test_returns_list_of_all_user_agents_os
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:userAgent] = "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"
+    rp3 = raw_payload
+    rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
+    rp4 = raw_payload
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+    PayloadParser.parse(rp4, "nickybobby")
+
+    visit '/sources/nickybobby'
+    save_and_open_page
+    within ("#stats") do
+      assert page.has_content?("OS breakdown: Mac OS X 10.8.2, Linux, Windows 7")
+    end
+  end
+
+  def test_returns_list_of_all_screen_resolutions_across_all_requests
+    Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+
+    rp1 = raw_payload
+    rp2 = raw_payload
+    rp2[:resolutionWidth] = "2520"
+    rp2[:resolutionHeight] = "1460"
+    rp3 = raw_payload
+    rp3[:resolutionWidth] = "1920"
+    rp3[:resolutionHeight] = "1460"
+    rp4 = raw_payload
+
+    PayloadParser.parse(rp1, "nickybobby")
+    PayloadParser.parse(rp2, "nickybobby")
+    PayloadParser.parse(rp3, "nickybobby")
+    PayloadParser.parse(rp4, "nickybobby")
+
+    visit '/sources/nickybobby'
+    save_and_open_page
+    within ("#stats") do
+      assert page.has_content?("Screen resolutions: 1920 x 1280, 2520 x 1460, 1920 x 1460")
+    end
+   end
+
+
+
 
 
 
