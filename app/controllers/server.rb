@@ -12,6 +12,7 @@ module RushHour
 
       if !client.id && client.valid?
         client.save
+        status 200
         body JSON.generate({:identifier => "#{client.identifier}"})
       elsif client.id
         status 403
@@ -51,6 +52,19 @@ module RushHour
         # # pr.save
         status 200
         body "Great success"
+      end
+    end
+
+    get '/sources/:identifier' do |identifier|
+      @client = Client.find_by(identifier: identifier)
+      @client_identifier = identifier
+      if @client && !@client.payload_requests.empty?
+        @stats = @client.stats
+        erb :stats
+      elsif @client && @client.payload_requests.empty?
+        erb :no_payloads
+      else
+        erb :not_registered
       end
     end
   end
