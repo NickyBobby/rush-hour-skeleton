@@ -4,8 +4,10 @@ class UserCanViewStatsTest < FeatureTest
 
   def test_client_can_view_statistics
     Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
+    rp1 = raw_payload
+    PayloadParser.parse(rp1, "nickybobby")
     visit '/sources/nickybobby'
-    #save_and_open_page
+
     assert page.has_content?("nickybobby")
     within ("#stats") do
       assert page.has_content?("Average response time: ")
@@ -120,7 +122,7 @@ class UserCanViewStatsTest < FeatureTest
     PayloadParser.parse(rp6, "nickybobby")
 
     visit '/sources/nickybobby'
-    #save_and_open_page
+    #
     within ("#stats") do
       assert page.has_content?("All HTTP verbs used: POST, GET, PUT")
     end
@@ -148,7 +150,7 @@ class UserCanViewStatsTest < FeatureTest
 
     # assert_equal 2, PayloadRequest.count
     visit '/sources/nickybobby'
-    #save_and_open_page
+    #
     within ("#stats") do
       assert page.has_content?("Requested URLs: http://www.nickybobby.com, http://www.google.com")
     end
@@ -170,7 +172,7 @@ class UserCanViewStatsTest < FeatureTest
     PayloadParser.parse(rp4, "nickybobby")
 
     visit '/sources/nickybobby'
-    #save_and_open_page
+    #
     within ("#stats") do
       assert page.has_content?("Web browser breakdown: Chrome, Firefox, IE")
     end
@@ -192,7 +194,7 @@ class UserCanViewStatsTest < FeatureTest
     PayloadParser.parse(rp4, "nickybobby")
 
     visit '/sources/nickybobby'
-    save_and_open_page
+
     within ("#stats") do
       assert page.has_content?("OS breakdown: Mac OS X 10.8.2, Linux, Windows 7")
     end
@@ -216,7 +218,7 @@ class UserCanViewStatsTest < FeatureTest
     PayloadParser.parse(rp4, "nickybobby")
 
     visit '/sources/nickybobby'
-    save_and_open_page
+
     within ("#stats") do
       assert page.has_content?("Screen resolutions: 1920 x 1280, 2520 x 1460, 1920 x 1460")
     end
@@ -244,7 +246,7 @@ end
 #     within("#skills") do
 #       assert page.has_content?("pizza")
 #     end
-#     save_and_open_page
+#
 
 # <h1>Statistics for: <%= @client.identifier %></h1>
 # <h3>Average response time: <%= @stats[:average_response_time] %></h3>
