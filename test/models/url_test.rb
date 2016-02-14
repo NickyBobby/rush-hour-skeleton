@@ -24,6 +24,17 @@ class UrlTest < Minitest::Test
     assert_respond_to ur, :payload_requests
   end
 
+  def test_url_can_parse_relative_paths
+    ur = Url.new(address: "http://nickrinna.com/giphys")
+    assert_equal "giphys", ur.relative_path
+    # ur = Url.new(address: "http://www.reddit.com/r/dinosaurs")
+    # assert_equal "r/dinosaurs", ur.relative_path
+    ur = Url.new(address: "http://www.turing.io/people")
+    assert_equal "people", ur.relative_path
+    ur = Url.new(address: "http://nickrinna.com")
+    assert_nil ur.relative_path
+  end
+
   def test_returns_list_of_URLs_from_most_frequent_to_least_frequent
     rp1 = raw_payload
     rp2 = raw_payload("google")
@@ -42,7 +53,10 @@ class UrlTest < Minitest::Test
     PayloadParser.parse(rp5, "jumpstartlab")
     PayloadParser.parse(rp6, "jumpstartlab")
 
-    assert_equal ["http://jumpstartlab.com/blog", "www.google.com", "www.turing.io"], PayloadRequest.return_ordered_list_of_urls
+    assert_equal [Url.find_by(address: "http://jumpstartlab.com/blog"),
+                  Url.find_by(address: "www.google.com"),
+                  Url.find_by(address: "www.turing.io")],
+                  PayloadRequest.return_ordered_list_of_urls
   end
 
   def test_find_max_response_time_for_specific_URL
