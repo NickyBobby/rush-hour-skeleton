@@ -5,6 +5,11 @@ class Url < ActiveRecord::Base
 
   has_many :payload_requests
 
+  def relative_path
+    address[/\..+\/(.*)/]
+    $1
+  end
+
   def http_verbs
     gb = payload_requests.group_by {|pr| pr.request}
     sorted = gb.sort_by do |key, value|

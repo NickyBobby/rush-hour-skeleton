@@ -142,7 +142,6 @@ class UserCanViewStatsTest < FeatureTest
     rp4 = raw_payload
     rp4[:url] = "http://www.google.com"
     # binding.pry
-
     PayloadParser.parse(rp1, "nickybobby")
     PayloadParser.parse(rp2, "nickybobby")
     PayloadParser.parse(rp3, "nickybobby")
@@ -150,9 +149,9 @@ class UserCanViewStatsTest < FeatureTest
 
     # assert_equal 2, PayloadRequest.count
     visit '/sources/nickybobby'
-    #
-    within ("#stats") do
-      assert page.has_content?("Requested URLs: http://www.nickybobby.com, http://www.google.com")
+    within ("#urls") do
+      assert page.has_content?("http://www.nickybobby.com")
+      assert page.has_content?("http://www.google.com")
     end
   end
 

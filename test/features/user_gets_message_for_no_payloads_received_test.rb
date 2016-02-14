@@ -6,7 +6,6 @@ class UserGetsNoPayloadMessageTest < FeatureTest
     Client.create(identifier: "nickybobby", root_url: "http://nickybobby.com")
 
     visit '/sources/nickybobby'
-    save_and_open_page
     assert page.has_content?("nickybobby")
     assert page.has_content?("No payload requests brah/gal. Go out and hustle.")
   end

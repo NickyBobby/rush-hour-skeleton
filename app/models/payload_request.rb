@@ -46,8 +46,8 @@ class PayloadRequest < ActiveRecord::Base
   def self.return_ordered_list_of_urls
     #joins(:url).group("urls.address").order('count(*) DESC').count
     url_ids = self.group(:url_id).order('count(*) DESC').pluck(:url_id)
-    url_ids.map { |id| Url.find(id).address }
-    # binding.pry
+    url_ids.map { |id| Url.find(id) }
+
   end
 
   def self.ranked_events

@@ -60,6 +60,7 @@ module RushHour
       @client_identifier = identifier
       if @client && !@client.payload_requests.empty?
         @stats = @client.stats
+        # binding.pry
         erb :stats
       elsif @client && @client.payload_requests.empty?
         erb :no_payloads
@@ -67,5 +68,18 @@ module RushHour
         erb :not_registered
       end
     end
+
+    get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
+      @identifier = identifier
+      @relative_path = relative_path
+      @client = Client.find_by(identifier: identifier)
+      @stats = @client.url_stats(relative_path)
+      if @stats
+        erb :url_stats
+      else
+        erb :no_url
+      end
+    end
+
   end
 end
