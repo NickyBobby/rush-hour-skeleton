@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-   <link rel="stylesheet" href="/application.css">
-   <title>Nickrinna Rushing the Hour</title>
- </head>
- <body>
-   <div class="container">
-     <%= yield %>
-     <div class="col-md-12 text-center">
-     <h3><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></h3>
-   </div>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/application.css">
+  <title>Nickrinna Rushing the Hour</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class='primary-header container group'>
+        <h1 class='logo'>
+          <a href='/sources' class='navbar-brand'><h1>Rushing The Hour with Nickrinna!!</h1></a>
+        </h1>
+        <ul class='nav navbar-nav navbar-right'>
+           <!-- <li><a href = "/">Home</a></li> -->
+          <li><a href = "/sources"><h1>Stats</h1></a></li>
+           <!-- <li><a href = "/tasks/new">New Task</a></li> -->
+        </ul>
+      </div>
+    </header><br><br>
+      <%= yield %>
+    <footer></footer>
+      <div class="col-md-12 text-center">
+        <h3><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></h3>
+        <img src="http://i.giphy.com/l4KigEkud4mFRIsGk.gif">
+        <h3><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></h3>
+
+      </div>
      <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
      <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
      <script src='js/bootstrap.js'></script>

@@ -54,7 +54,7 @@ class UserCanSeeUrlStatsTest < FeatureTest
     create_n_requests(3, "nickrinna", {url: "http://nickrinna.com/emojis", userAgent: "Mozilla/5.0 (PLAYSTATION 3; 1.10)"})
 
     visit '/sources/nickrinna/urls/emojis'
-
+     save_and_open_page
     within ("#url_stats") do
       assert page.has_content?("Top three most popular user agents: Mac OS X 10.8.2 Chrome, Linux Firefox, Windows 7 IE")
     end

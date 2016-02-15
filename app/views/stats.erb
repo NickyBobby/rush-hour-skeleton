@@ -1,22 +1,59 @@
 
-<div class = "col-md-8 col-md-offset-2" id="stats">
+<div class = "" id="stats">
   <h1>Statistics for: <%= @client.identifier %></h1>
-  <h3>Average response time: <%= @stats[:average_response_time] %> ms</h3>
-  <h3>Max response time: <%= @stats[:max_response_time] %> ms</h3>
-  <h3>Min response time: <%= @stats[:min_response_time] %> ms</h3>
-  <h3>Most frequent request type: <%= @stats[:most_frequent_request] %></h3>
-  <h3>All HTTP verbs used: <%= @stats[:all_http_verbs] %></h3>
-  <h3 id = "urls">Requested URLs:
-    <% @stats[:requested_urls].each do |url|%>
-    <a href="/sources/<%= @client.identifier %>/urls/<%= url.relative_path %>"><%= url.address %></a>
-    <% end %>
-  </h3>
-  <h3 id="events">Event breakdown:
-    <% @stats[:events].each do |event|%>
-    <a href="/sources/<%= @client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
-    <% end %>
-  </h3>
-  <h3>Web browser breakdown: <%= @stats[:browsers] %></h3>
-  <h3>OS breakdown: <%= @stats[:os] %></h3>
-  <h3>Screen resolutions: <%= @stats[:resolutions] %></h3>
+  <table class="table table-hover table-condensed">
+    <tr>
+      <th>Stats</th>
+      <th>Values</th>
+    </tr>
+    <tr>
+      <h3><td>Average response time (ms): </td></h3>
+      <td><%= @stats[:average_response_time] %></td>
+    </tr>
+    <tr>
+      <h3><td>Max response time (ms): </td></h3>
+      <td><%= @stats[:max_response_time] %></td>
+    </tr>
+    <tr>
+      <h3><td>Min response time (ms): </td></h3>
+      <td><%= @stats[:min_response_time] %></td>
+    </tr>
+    <tr>
+      <h3><td>Most frequent request type: </td></h3>
+      <td><%= @stats[:most_frequent_request] %></td>
+    </tr>
+    <tr>
+      <h3><td>All HTTP verbs used: </td></h3>
+      <td><%= @stats[:all_http_verbs] %></td>
+    </tr>
+    <tr>
+      <h3 id="urls"><td>Requested URLs: <td></h3>
+      <td>
+        <% @stats[:requested_urls].each do |url|%>
+        <a href="/sources/<%= @client.identifier %>/urls/<%= url.relative_path %>"><%= url.address %></a>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <h3 id="events"><td>Event breakdown: </td></h3>
+      <td>
+        <% @stats[:events].each do |event|%>
+        <a href="/sources/<%= @client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <h3><td>Web browser breakdown: </td></h3>
+      <td><%= @stats[:browsers] %></td>
+    </tr>
+    <tr>
+      <h3><td>OS breakdown: <td></h3>
+      <td><%= @stats[:os] %></td>
+    </tr>
+    <tr>
+      <h3><td>Screen resolutions: </td></h3>
+      <td><%= @stats[:resolutions] %></td>
+    </tr>
+
+  </table>
 </div>
