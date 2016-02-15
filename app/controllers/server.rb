@@ -60,7 +60,7 @@ module RushHour
       @client_identifier = identifier
       if @client && !@client.payload_requests.empty?
         @stats = @client.stats
-        binding.pry
+        # binding.pry
         erb :stats
       elsif @client && @client.payload_requests.empty?
         erb :no_payloads
