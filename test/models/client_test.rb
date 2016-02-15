@@ -3,10 +3,8 @@ require_relative "../test_helper"
 class ClientTest < Minitest::Test
   include TestHelpers
 
-
   def test_client_instantiates_with_identifier_and_root_url
     client = Client.new(identifier: "chick-fil-ahhhh", root_url: "www.google.com")
-    assert client.valid?
     client.save
 
     assert_equal "chick-fil-ahhhh", client.identifier
@@ -15,13 +13,13 @@ class ClientTest < Minitest::Test
 
   def test_client_needs_identifier_and_root_url_to_instantiate
     client = Client.create(identifier: "chick-fil-ahhhh")
-    refute client.valid?
+    refute client.save
     client = Client.create(root_url: "www.google.com")
-    refute client.valid?
+    refute client.save
     client = Client.create
-    refute client.valid?
+    refute client.save
+    assert_equal 0, Client.count
   end
-
 
   def test_client_has_payload_requests
     client = Client.create(identifier: "kazooos", root_url: "www.giphy.com")
@@ -31,9 +29,10 @@ class ClientTest < Minitest::Test
   def test_client_has_urls
     PayloadParser.parse(raw_payload, "jumpstartlab")
     assert_equal 1, PayloadRequest.count
-
     assert_equal 1, Client.count
+
     client = Client.first
+
     assert_equal "jumpstartlab", client.identifier
     assert_equal "http://www.jumpstartlab.com", client.root_url
     assert_equal [Url.find_by(address: "http://jumpstartlab.com/blog")], client.urls
