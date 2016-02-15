@@ -27,8 +27,8 @@ class UrlTest < Minitest::Test
   def test_url_can_parse_relative_paths
     ur = Url.new(address: "http://nickrinna.com/giphys")
     assert_equal "giphys", ur.relative_path
-    # ur = Url.new(address: "http://www.reddit.com/r/dinosaurs")
-    # assert_equal "r/dinosaurs", ur.relative_path
+    ur = Url.new(address: "http://www.reddit.com/r/dinosaurs")
+    assert_equal "r/dinosaurs", ur.relative_path
     ur = Url.new(address: "http://www.turing.io/people")
     assert_equal "people", ur.relative_path
     ur = Url.new(address: "http://nickrinna.com")
