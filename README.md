@@ -9,4 +9,7 @@ This project was a one week project spanning the second week of Module 2 at the 
 
 After check-in with Rachel on Tuesday, it was suggested that we move to a more Rails-like look to the database, and to build out a parser for the payload. RequestedAt currently is a string, but will be swapped to a DateTime object for educational value.
 
-* Iteration 1:
+* Iteration 1: This iteration normalized the database created in iteration 0. The database can be visualized as:
+![](/app/public/iter1-database.png)
+
+* Iteration 2: 
