@@ -45,7 +45,9 @@ class Client < ActiveRecord::Base
     return unless event
     ({
       times: event.find_date_time,
-      event_names: event.find_event_name
+      event_name: event.find_event_name,
+      hours: event.grouped_hours,
+      total_hits: event.total_hits
       })
 
   end

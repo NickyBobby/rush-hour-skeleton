@@ -77,6 +77,7 @@ module RushHour
       @relative_path = relative_path
       @client = Client.find_by(identifier: identifier)
       @stats = @client.event_stats(relative_path)
+      @grouped = @stats[:hours]
       # binding.pry
       if @stats
         erb :event_stats
