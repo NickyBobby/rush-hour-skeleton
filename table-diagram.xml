@@ -49,7 +49,7 @@
 <default>NULL</default></row>
 <row name="id_ip" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="ip" row="id" />
+<default>NULL</default><relation table="ips" row="id" />
 </row>
 <row name="id_resolutions" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -57,11 +57,11 @@
 </row>
 <row name="id_request" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="request" row="id" />
+<default>NULL</default><relation table="requests" row="id" />
 </row>
 <row name="id_event" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="event" row="id" />
+<default>NULL</default><relation table="events" row="id" />
 </row>
 <row name="id_user agent" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -69,7 +69,7 @@
 </row>
 <row name="id_url" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="url" row="id" />
+<default>NULL</default><relation table="urls" row="id" />
 </row>
 <row name="id_referrers" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -79,7 +79,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="673" y="476" name="ip">
+<table x="673" y="476" name="ips">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -104,7 +104,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="541" y="589" name="request">
+<table x="541" y="589" name="requests">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -115,7 +115,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="335" y="590" name="event">
+<table x="335" y="590" name="events">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -140,7 +140,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="558" y="52" name="url">
+<table x="558" y="52" name="urls">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
