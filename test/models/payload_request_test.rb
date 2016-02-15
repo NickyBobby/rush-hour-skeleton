@@ -22,6 +22,7 @@ class PayloadRequestTest < Minitest::Test
     assert_respond_to pr, :user_agent_id
     assert_respond_to pr, :resolution_id
     assert_respond_to pr, :ip_id
+    assert_respond_to pr, :payload_sha
   end
 
   def test_can_add_a_payload_request_to_database

@@ -1,9 +1,12 @@
-require 'user_agent_parser'
+require 'digest'
+
 class PayloadParser
 
   def self.parse(data, identifier)
     client = Client.find_by(identifier: identifier)
-    pr = PayloadRequest.find_or_initialize_by(get_payload_details(data, client))
+    details = get_payload_details(data, client)
+    pr = PayloadRequest.find_or_initialize_by(details)
+    pr.payload_sha = payload_sha(pr)
     pr.save
     pr.errors unless pr.valid?
   end
@@ -33,6 +36,11 @@ class PayloadParser
       platform = ua.os.to_s
     end
     [browser, platform]
+  end
+
+  def self.payload_sha(pr)
+    payload = "#{pr.url_id}#{pr.requested_at}#{pr.responded_in}#{pr.referrer_id}#{pr.request_id}#{pr.event_id}#{pr.user_agent_id}#{pr.resolution_id}#{pr.ip_id}#{pr.client_id}"
+    Digest::SHA256.hexdigest(payload)
   end
 
 end
