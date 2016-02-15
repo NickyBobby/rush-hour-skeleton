@@ -36,22 +36,9 @@ class UrlTest < Minitest::Test
   end
 
   def test_returns_list_of_URLs_from_most_frequent_to_least_frequent
-    rp1 = raw_payload
-    rp2 = raw_payload("google")
-    rp2[:url] = "www.google.com"
-    rp3 = raw_payload("google")
-    rp3[:url] = "www.google.com"
-    rp4 = raw_payload("turing")
-    rp4[:url] = "www.turing.io"
-    rp5 = raw_payload
-    rp6 = raw_payload
-
-    PayloadParser.parse(rp1, "jumpstartlab")
-    PayloadParser.parse(rp2, "google")
-    PayloadParser.parse(rp3, "google")
-    PayloadParser.parse(rp4, "turing")
-    PayloadParser.parse(rp5, "jumpstartlab")
-    PayloadParser.parse(rp6, "jumpstartlab")
+    create_n_requests(6, "jumpstartlab", url: "http://jumpstartlab.com/blog")
+    create_n_requests(3, "google", url: "www.google.com")
+    create_n_requests(2, "turing", url: "www.turing.io")
 
     assert_equal [Url.find_by(address: "http://jumpstartlab.com/blog"),
                   Url.find_by(address: "www.google.com"),
@@ -60,24 +47,10 @@ class UrlTest < Minitest::Test
   end
 
   def test_find_max_response_time_for_specific_URL
-    rp1 = raw_payload
-    rp2 = raw_payload("google")
-    rp2[:respondedIn] = 40
-    rp3 = raw_payload("google")
-    rp3[:respondedIn] = 50
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
+    load_default_request("jumpstartlab")
+    load_payload_requests("google", respondedIn: [40, 50])
+    load_payload_requests("jumpstartlab", respondedIn: [60, 80, 70])
 
-    PayloadParser.parse(rp1, "jumpstartlab")
-    PayloadParser.parse(rp2, "google")
-    PayloadParser.parse(rp3, "google")
-    PayloadParser.parse(rp4, "jumpstartlab")
-    PayloadParser.parse(rp5, "jumpstartlab")
-    PayloadParser.parse(rp6, "jumpstartlab")
     url = Url.first
     url2 = Url.last
 
@@ -86,24 +59,10 @@ class UrlTest < Minitest::Test
   end
 
   def test_find_min_response_time_for_specific_URL
-    rp1 = raw_payload
-    rp2 = raw_payload("google")
-    rp2[:respondedIn] = 40
-    rp3 = raw_payload("google")
-    rp3[:respondedIn] = 50
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
+    load_default_request("jumpstartlab")
+    load_payload_requests("google", respondedIn: [40, 50])
+    load_payload_requests("jumpstartlab", respondedIn: [60, 80, 70])
 
-    PayloadParser.parse(rp1, "jumpstartlab")
-    PayloadParser.parse(rp2, "google")
-    PayloadParser.parse(rp3, "google")
-    PayloadParser.parse(rp4, "jumpstartlab")
-    PayloadParser.parse(rp5, "jumpstartlab")
-    PayloadParser.parse(rp6, "jumpstartlab")
     url = Url.first
     url2 = Url.last
 
@@ -112,24 +71,10 @@ class UrlTest < Minitest::Test
   end
 
   def test_returns_list_of_response_times_for_specific_url
-    rp1 = raw_payload
-    rp2 = raw_payload("google")
-    rp2[:respondedIn] = 40
-    rp3 = raw_payload("google")
-    rp3[:respondedIn] = 50
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
+    load_default_request("jumpstartlab")
+    load_payload_requests("google", respondedIn: [40, 50])
+    load_payload_requests("jumpstartlab", respondedIn: [60, 80, 70])
 
-    PayloadParser.parse(rp1, "jumpstartlab")
-    PayloadParser.parse(rp2, "google")
-    PayloadParser.parse(rp3, "google")
-    PayloadParser.parse(rp4, "jumpstartlab")
-    PayloadParser.parse(rp5, "jumpstartlab")
-    PayloadParser.parse(rp6, "jumpstartlab")
     url = Url.first
     url2 = Url.last
 
@@ -138,24 +83,10 @@ class UrlTest < Minitest::Test
   end
 
   def test_average_response_time_for_specific_url
-    rp1 = raw_payload
-    rp2 = raw_payload("google")
-    rp2[:respondedIn] = 40
-    rp3 = raw_payload("google")
-    rp3[:respondedIn] = 50
-    rp4 = raw_payload
-    rp4[:respondedIn] = 60
-    rp5 = raw_payload
-    rp5[:respondedIn] = 70
-    rp6 = raw_payload
-    rp6[:respondedIn] = 80
+    load_default_request("jumpstartlab")
+    load_payload_requests("google", respondedIn: [40, 50])
+    load_payload_requests("jumpstartlab", respondedIn: [60, 80, 70])
 
-    PayloadParser.parse(rp1, "jumpstartlab")
-    PayloadParser.parse(rp2, "google")
-    PayloadParser.parse(rp3, "google")
-    PayloadParser.parse(rp4, "jumpstartlab")
-    PayloadParser.parse(rp5, "jumpstartlab")
-    PayloadParser.parse(rp6, "jumpstartlab")
     url = Url.first
     url2 = Url.last
 
@@ -165,32 +96,11 @@ class UrlTest < Minitest::Test
 
 
   def test_url_returns_three_most_popular_http_verbs
-    rp1 = raw_payload
-    2.times do |n|
-      rp1[:respondedIn] = 37+n
-      PayloadParser.parse(rp1, "jumpstartlab")
-    end
+    create_n_requests(2, "jumpstartlab", requestType: "GET")
+    create_n_requests(5, "jumpstartlab", requestType: "POST")
+    create_n_requests(1, "jumpstartlab", requestType: "PUT")
+    create_n_requests(10, "jumpstartlab", requestType: "DELETE")
 
-    rp2 = raw_payload
-    5.times do |n|
-      rp2[:respondedIn] = 237+n
-      rp2[:requestType] = "POST"
-      PayloadParser.parse(rp2, "jumpstartlab")
-    end
-
-    rp3 = raw_payload
-    1.times do |n|
-      rp3[:respondedIn] = 337+n
-      rp3[:requestType] = "PUT"
-      PayloadParser.parse(rp3, "jumpstartlab")
-    end
-
-    rp4 = raw_payload
-    10.times do |n|
-      rp4[:respondedIn] = 437+n
-      rp4[:requestType] = "DELETE"
-      PayloadParser.parse(rp4, "jumpstartlab")
-    end
     assert_equal 1, Url.count
     url = Url.first
     assert_equal "http://jumpstartlab.com/blog", url.address
@@ -199,32 +109,11 @@ class UrlTest < Minitest::Test
   end
 
   def test_url_returns_three_most_popular_referrers
-    rp1 = raw_payload
-    2.times do |n|
-      rp1[:respondedIn] = 37+n
-      PayloadParser.parse(rp1, "jumpstartlab")
-    end
+    create_n_requests(2, "jumpstartlab", referredBy: "www.hitlist.com")
+    create_n_requests(9, "jumpstartlab", referredBy: "http://google.com")
+    create_n_requests(3, "jumpstartlab", referredBy: "http://youtube.com")
+    create_n_requests(7, "jumpstartlab", referredBy: "http://netflix.com")
 
-    rp2 = raw_payload
-    9.times do |n|
-      rp2[:respondedIn] = 237+n
-      rp2[:referredBy] = "http://google.com"
-      PayloadParser.parse(rp2, "jumpstartlab")
-    end
-
-    rp3 = raw_payload
-    3.times do |n|
-      rp3[:respondedIn] = 337+n
-      rp3[:referredBy] = "http://youtube.com"
-      PayloadParser.parse(rp3, "jumpstartlab")
-    end
-
-    rp4 = raw_payload
-    7.times do |n|
-      rp4[:respondedIn] = 437+n
-      rp4[:referredBy] = "http://netflix.com"
-      PayloadParser.parse(rp4, "jumpstartlab")
-    end
     assert_equal 1, Url.count
     url = Url.first
 
@@ -234,32 +123,11 @@ class UrlTest < Minitest::Test
   end
 
   def test_url_returns_three_most_popular_user_agents
-    rp1 = raw_payload
-    2.times do |n|
-      rp1[:respondedIn] = 37+n
-      PayloadParser.parse(rp1, "jumpstartlab")
-    end
-
-    rp2 = raw_payload
-    9.times do |n|
-      rp2[:respondedIn] = 237+n
-      rp2[:userAgent] = "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"
-      PayloadParser.parse(rp2, "jumpstartlab")
-    end
-
-    rp3 = raw_payload
-    3.times do |n|
-      rp3[:respondedIn] = 337+n
-      rp3[:userAgent] = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
-      PayloadParser.parse(rp3, "jumpstartlab")
-    end
-
-    rp4 = raw_payload
-    7.times do |n|
-      rp4[:respondedIn] = 437+n
-      rp4[:userAgent] = "Mozilla/5.0 (PLAYSTATION 3; 1.10)"
-      PayloadParser.parse(rp4, "jumpstartlab")
-    end
+    create_n_requests(2, "jumpstartlab", userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17")
+    create_n_requests(9, "jumpstartlab", userAgent: "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0")
+    create_n_requests(3, "jumpstartlab", userAgent: "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)")
+    create_n_requests(7, "jumpstartlab", userAgent: "Mozilla/5.0 (PLAYSTATION 3; 1.10)")
+    
     assert_equal 1, Url.count
     url = Url.first
 
