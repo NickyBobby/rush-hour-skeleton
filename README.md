@@ -33,11 +33,15 @@ After check-in with Rachel on Tuesday, it was suggested that we move to a more R
     * Three most popular referrers
     * Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser.
 
-The cross-table methods  are currently implemented primarily in Ruby. Refactoring will likely focus on pushing this logic deeper in the stack.
+The cross-table methods are currently implemented primarily in Ruby. Refactoring will likely focus on pushing this logic deeper in the stack.
 
-* Iteration 3:
+* Iteration 3: In this iteration, we create a new table in the database: Client. A client has two attributes: an identifier and a root_url. A client has many PayloadRequests. Migrations are added here in order to create the table of clients as well create a foreign key in the table payload_requests. The client's identifier should be unique.
+
 * Iteration 4:
 * Iteration 5:
 * Iteration 6:
 * Iteration 7:
 * Iteration 8:
+
+### Other Notes:
+The final database structure looks like:
