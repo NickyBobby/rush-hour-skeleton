@@ -29,12 +29,8 @@ module RushHour
     end
 
     post '/sources/:identifier/data' do |identifier|
-      #binding.pry
       raw_payload = JSON.parse(params[:payload], symbolize_names: true)
-      # Check if client exists if it doesnt
       client = Client.find_by(identifier: identifier)
-      #errors =
-      #binding.pry
       if !client
         status 403
         body "#{identifier} not found. Cool story brah/gal."
@@ -45,11 +41,6 @@ module RushHour
         status 400
         body "Error: "
       else
-        # # I ahve a client and the payload is valid
-        # binding.pry
-        # PayloadParser.parse(raw_payload, identifier)
-        # # pr = PayloadRequest.new()
-        # # pr.save
         status 200
         body "Great success"
       end

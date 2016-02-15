@@ -6,7 +6,7 @@ class Url < ActiveRecord::Base
   has_many :payload_requests
 
   def relative_path
-    address[/\..+\/(.*)/]
+    address[/.\w+\/(.*)/]
     $1
   end
 
