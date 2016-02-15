@@ -79,4 +79,9 @@ class PayloadRequest < ActiveRecord::Base
     end
   end
 
+  def self.find_event_names
+    event_name_ids = self.group(:event_id).order('count(*)').pluck(:event_id)
+    event_name_ids.map { |id| Event.find(id) }
+  end
+
 end

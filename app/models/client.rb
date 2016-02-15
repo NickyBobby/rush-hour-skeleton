@@ -21,7 +21,8 @@ class Client < ActiveRecord::Base
       requested_urls: payload_requests.return_ordered_list_of_urls,
       browsers: payload_requests.user_agent_browsers.join(", "),
       os: payload_requests.user_agent_os.join(", "),
-      resolutions: payload_requests.requested_resolutions.join(", ")
+      resolutions: payload_requests.requested_resolutions.join(", "),
+      events: payload_requests.find_event_names
     })
   end
 
@@ -37,5 +38,15 @@ class Client < ActiveRecord::Base
       top_three_referrers: url.most_popular_referrers.join(", "),
       top_three_user_agents: url.most_popular_useragents.join(", ")
     })
+  end
+
+  def event_stats(event_name)
+    event = Event.find_by(name: "#{event_name}")
+    return unless event
+    ({
+      times: event.find_date_time,
+      event_names: event.find_event_name
+      })
+
   end
 end

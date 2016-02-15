@@ -18,6 +18,7 @@ class UserCanSeeUrlStatsTest < FeatureTest
     PayloadParser.parse(rp3, "nickrinna")
 
     visit '/sources/nickrinna/urls/emojis'
+    save_and_open_page
     within("#url_stats") do
       assert page.has_content?("Max response time (ms): 80")
       assert page.has_content?("Min response time (ms): 37")

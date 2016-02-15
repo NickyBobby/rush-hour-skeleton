@@ -122,7 +122,7 @@ class UserCanViewStatsTest < FeatureTest
     PayloadParser.parse(rp6, "nickybobby")
 
     visit '/sources/nickybobby'
-    #
+    save_and_open_page
     within ("#stats") do
       assert page.has_content?("All HTTP verbs used: POST, GET, PUT")
     end
