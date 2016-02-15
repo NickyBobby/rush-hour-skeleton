@@ -47,11 +47,14 @@
 <row name="respondedIn" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
+<row name="payload_sha" null="1" autoincrement="0">
+<datatype>CHAR(64)</datatype>
+<default>NULL</default></row>
 <row name="id_ip" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="ips" row="id" />
 </row>
-<row name="id_resolutions" null="1" autoincrement="0">
+<row name="id_resolution" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="resolutions" row="id" />
 </row>
@@ -71,9 +74,13 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="urls" row="id" />
 </row>
-<row name="id_referrers" null="1" autoincrement="0">
+<row name="id_referrer" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="referrers" row="id" />
+</row>
+<row name="id_client" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="clients" row="id" />
 </row>
 <key type="PRIMARY" name="">
 <part>id</part>
@@ -156,6 +163,20 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="address" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="779" y="376" name="clients">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="identifier" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="root_url" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
