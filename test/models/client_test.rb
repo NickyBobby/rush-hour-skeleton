@@ -27,7 +27,7 @@ class ClientTest < Minitest::Test
   end
 
   def test_client_has_urls
-    PayloadParser.parse(raw_payload, "jumpstartlab")
+    load_default_request("jumpstartlab")
     assert_equal 1, PayloadRequest.count
     assert_equal 1, Client.count
 
@@ -39,12 +39,8 @@ class ClientTest < Minitest::Test
   end
 
   def test_client_has_requests
-    PayloadParser.parse(raw_payload, "jumpstartlab")
-    assert_equal 1, PayloadRequest.count
-
-    rp2 = raw_payload
-    rp2[:requestType] ="POST"
-    PayloadParser.parse(rp2, "jumpstartlab")
+    load_default_request("jumpstartlab")
+    load_payload_requests("jumpstartlab", requestType: ["POST"])
 
     assert_equal 1, Client.count
     client = Client.first
@@ -54,13 +50,8 @@ class ClientTest < Minitest::Test
   end
 
   def test_client_has_resolutions
-    PayloadParser.parse(raw_payload, "jumpstartlab")
-    assert_equal 1, PayloadRequest.count
-
-    rp2 = raw_payload
-    rp2[:resolutionWidth] = "2450"
-    rp2[:resolutionHeight] = "1380"
-    PayloadParser.parse(rp2, "jumpstartlab")
+    load_default_request("jumpstartlab")
+    load_payload_requests("jumpstartlab", resolution: [["2450", "1380"]])
 
     assert_equal 1, Client.count
     client = Client.first
@@ -70,12 +61,8 @@ class ClientTest < Minitest::Test
   end
 
   def test_client_has_user_agents
-    PayloadParser.parse(raw_payload, "jumpstartlab")
-    assert_equal 1, PayloadRequest.count
-
-    rp2 = raw_payload
-    rp2[:userAgent] = "Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"
-    PayloadParser.parse(rp2, "jumpstartlab")
+    load_default_request("jumpstartlab")
+    load_payload_requests("jumpstartlab", userAgent: ["Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0"])
 
     assert_equal 1, Client.count
     client = Client.first
