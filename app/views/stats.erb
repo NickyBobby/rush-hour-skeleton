@@ -11,6 +11,11 @@
     <a href="/sources/<%= @client.identifier %>/urls/<%= url.relative_path %>"><%= url.address %></a>
     <% end %>
   </h3>
+  <h3 id="events">Event breakdown:
+    <% @stats[:events].each do |event|%>
+    <a href="/sources/<%= @client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
+    <% end %>
+  </h3>
   <h3>Web browser breakdown: <%= @stats[:browsers] %></h3>
   <h3>OS breakdown: <%= @stats[:os] %></h3>
   <h3>Screen resolutions: <%= @stats[:resolutions] %></h3>

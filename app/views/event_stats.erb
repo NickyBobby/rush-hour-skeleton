@@ -1,0 +1,112 @@
+<div id="event_stats">
+  <h1>Event Stats</h1>
+  <h2>Event name: <%= @stats[:event_name] %></h2>
+
+  <table class="table table-hover table-condensed">
+    <tr>
+      <th>Time of Day</th>
+      <th>Hits</th>
+    </tr>
+    <tr>
+      <td>Total 24 hour breakdown: </td>
+      <td><%= @stats[:total_hits] %></td>
+    </tr>
+    <tr>
+      <td>Between 12 and 1 AM:</td>
+      <td><%= @grouped[0]%></td>
+    </tr>
+    <tr>
+      <td>Between 1 and 2 AM:</td>
+      <td><%= @grouped[1] %></td>
+    </tr>
+    <tr>
+      <td>Between 2 and 3 AM:</td>
+      <td><%= @grouped[2] %></td>
+    </tr>
+    <tr>
+      <td>Between 3 and 4 AM:</td>
+      <td><%= @grouped[3] %></td>
+    </tr>
+    <tr>
+      <td>Between 4 and 5 AM:</td>
+      <td><%= @grouped[4] %></td>
+    </tr>
+    <tr>
+      <td>Between 5 and 6 AM:</td>
+      <td><%= @grouped[5] %></td>
+    </tr>
+    <tr>
+      <td>Between 6 and 7 AM:</td>
+      <td><%= @grouped[6] %></td>
+    </tr>
+    <tr>
+      <td>Between 7 and 8 AM:</td>
+      <td><%= @grouped[7] %></td>
+    </tr>
+    <tr>
+      <td>Between 8 and 9 AM:</td>
+      <td><%= @grouped[8] %></td>
+    </tr>
+    <tr>
+      <td>Between 9 and 10 AM:</td>
+      <td><%= @grouped[9] %></td>
+    </tr>
+    <tr>
+      <td>Between 10 and 11 AM:</td>
+      <td><%= @grouped[10] %></td>
+    </tr>
+    <tr>
+      <td>Between 11 and 12 AM:</td>
+      <td><%= @grouped[11] %></td>
+    </tr>
+    <tr>
+      <td>Between 12 and 1 PM:</td>
+      <td><%= @grouped[12] %></td>
+    </tr>
+    <tr>
+      <td>Between 1 and 2 PM:</td>
+      <td><%= @grouped[13] %></td>
+    </tr>
+    <tr>
+      <td>Between 2 and 3 PM:</td>
+      <td><%= @grouped[14] %></td>
+    </tr>
+    <tr>
+      <td>Between 3 and 4 PM:</td>
+      <td><%= @grouped[15] %></td>
+    </tr>
+    <tr>
+      <td>Between 4 and 5 PM:</td>
+      <td><%= @grouped[16] %></td>
+    </tr>
+    <tr>
+      <td>Between 5 and 6 PM:</td>
+      <td><%= @grouped[17] %></td>
+    </tr>
+    <tr>
+      <td>Between 6 and 7 PM:</td>
+      <td><%= @grouped[18] %></td>
+    </tr>
+    <tr>
+      <td>Between 7 and 8 PM:</td>
+      <td><%= @grouped[19] %></td>
+    </tr>
+    <tr>
+      <td>Between 8 and 9 PM:</td>
+      <td><%= @grouped[20] %></td>
+    </tr>
+    <tr>
+      <td>Between 9 and 10 PM:</td>
+      <td><%= @grouped[21] %></td>
+    </tr>
+    <tr>
+      <td>Between 10 and 11 PM:</td>
+      <td><%= @grouped[22] %></td>
+    </tr>
+    <tr>
+      <td>Between 11 and 12 PM:</td>
+      <td><%= @grouped[23] %></td>
+    </tr>
+  </table>
+
+</div>
