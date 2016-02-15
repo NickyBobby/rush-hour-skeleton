@@ -31,7 +31,6 @@ module TestHelpers
 
   def raw_payload(identifier="jumpstartlab")
     Client.find_or_create_by(identifier: identifier, root_url: "http://www.#{identifier}.com")
-
     ({
       "url":"http://#{identifier}.com/blog",
       "requestedAt":"2013-02-16 21:38:28 -0700",
@@ -45,6 +44,47 @@ module TestHelpers
       "resolutionHeight":"1280",
       "ip":"63.29.38.211"
     })
+  end
+
+  def load_payload_requests(identifier = "jumpstartlab", data = {})
+    data.each do |key, values|
+      values.each do |value|
+        rp = raw_payload(identifier)
+        if key == :resolution
+          rp[:resolutionWidth] = value[0]
+          rp[:resolutionHeight] = value[1]
+        else
+          rp[key] = value
+        end
+        PayloadParser.parse(rp, identifier)
+      end
+    end
+  end
+
+  def create_n_requests(n, identifier, data)
+    if data.keys.include?(:eventName)
+      varkey = :ip
+    else
+      varkey = :eventName
+    end
+
+    n.times do |i|
+      rp = raw_payload(identifier)
+      data.each do |key, value|
+        if key == :resolution
+          rp[:resolutionWidth] = value[0]
+          rp[:resolutionHeight] = value[1]
+        else
+          rp[key] = value
+        end
+      end
+      rp[varkey] = "Making request unique: #{i}"
+      PayloadParser.parse(rp, identifier)
+    end
+  end
+
+  def load_default_request(identifier)
+    PayloadParser.parse(raw_payload(identifier), identifier)
   end
 end
 

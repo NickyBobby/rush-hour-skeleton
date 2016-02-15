@@ -6,7 +6,7 @@ class BadRequestIfUrlDoesNotExistTest < FeatureTest
     Client.create(identifier: "nickrinna", root_url: "http://nickrinna.com")
 
     visit '/sources/nickrinna/urls/bad-emojis'
-    save_and_open_page
+    
     assert page.has_content?("bad-emojis has not been requested, try again.")
   end
 end

@@ -19,6 +19,7 @@ class PayloadParserTest < Minitest::Test
     assert_equal "1920", pr.resolution.width
     assert_equal "1280", pr.resolution.height
     assert_equal "63.29.38.211", pr.ip.address
+    assert_equal "jumpstartlab", pr.client.identifier
   end
 
 end
