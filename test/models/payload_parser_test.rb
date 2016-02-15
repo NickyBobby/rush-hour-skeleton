@@ -4,7 +4,7 @@ class PayloadParserTest < Minitest::Test
   include TestHelpers
 
   def test_parser_can_create_a_valid_payload_request_input
-    PayloadParser.parse(raw_payload, "jumpstartlab")
+    load_default_request("jumpstartlab")
     assert_equal 1, PayloadRequest.count
     pr = PayloadRequest.first
 
@@ -20,6 +20,30 @@ class PayloadParserTest < Minitest::Test
     assert_equal "1280", pr.resolution.height
     assert_equal "63.29.38.211", pr.ip.address
     assert_equal "jumpstartlab", pr.client.identifier
+    assert_equal "56992f63bab9f69b92ac17fbd913a1c88ccf9afb2b0576b0c5dae7746ee072fc", pr.payload_sha
+  end
+
+  def test_parser_will_create_new_payload_request_with_minute_detail_changes
+    load_default_request("jumpstartlab")
+    load_payload_requests("jumpstartlab", {requestedAt: ["2013-02-16 21:38:28 -0600"]})
+    load_payload_requests("jumpstartlab", {referredBy: ["http://jumpstartlab.com/"]})
+
+    assert_equal 3, PayloadRequest.count
+    pr = PayloadRequest.last
+
+    assert_equal "http://jumpstartlab.com/blog", pr.url.address
+    assert_equal "2013-02-16 21:38:28 -0700", pr.requested_at
+    assert_equal 37, pr.responded_in
+    assert_equal "http://jumpstartlab.com/", pr.referrer.address
+    assert_equal "GET", pr.request.verb
+    assert_equal "socialLogin", pr.event.name
+    assert_equal "Chrome", pr.user_agent.browser
+    assert_equal "Mac OS X 10.8.2", pr.user_agent.platform
+    assert_equal "1920", pr.resolution.width
+    assert_equal "1280", pr.resolution.height
+    assert_equal "63.29.38.211", pr.ip.address
+    assert_equal "jumpstartlab", pr.client.identifier
+    assert_equal "8b02ac3279195a7e3795d2b614fa10b192c43d4e53388370b30207dcf57e95ad", pr.payload_sha
   end
 
 end

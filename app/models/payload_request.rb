@@ -10,6 +10,7 @@ class PayloadRequest < ActiveRecord::Base
   validates :resolution_id, presence: true
   validates :ip_id, presence: true
   validates :client_id, presence: true
+  validates :payload_sha, presence: true, uniqueness: true
 
   belongs_to :referrer
   belongs_to :request
