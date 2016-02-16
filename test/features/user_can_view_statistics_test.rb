@@ -25,7 +25,7 @@ class UserCanViewStatsTest < FeatureTest
     load_payload_requests("nickybobby", respondedIn: [40,20])
 
     visit '/sources/nickybobby'
-    save_and_open_page
+
     within ("#stats") do
       assert page.has_content?("Average response time (ms): 32.33")
       assert page.has_content?("Max response time (ms): 40")

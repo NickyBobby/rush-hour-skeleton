@@ -42,7 +42,7 @@ class UserGetsTimeBreakdownOfEventsTest < FeatureTest
     end
     click_link 'here'
     assert_equal '/sources/nickrinna/events', current_path
-    save_and_open_page
+    
     within("#events") do
       assert page.has_content?("Event breakdown: ")
       assert page.has_content?("socialLogin")
