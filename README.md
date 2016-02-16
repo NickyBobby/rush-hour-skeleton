@@ -64,7 +64,18 @@ The cross-table methods are currently implemented primarily in Ruby. Refactoring
 If the identifier does NOT exist, an error page will tell the client that they have not registered.
 If the identifier does exist, but no payload data can be found, the client will be informed that no payload data has been found.
 
-* Iteration 7:
+* Iteration 7: Similar to iteration 6, the client can also find statistics for a specific path on their site. The url specific statistics can be found at http://rushhourapp:port/sources/IDENTIFIER/urls/RELATIVEPATH or through the client site at http://rushhourapp:port/sources/IDENTIFIER under list of URLs.
+The following statistics are available:
+  * Max Response time
+  * Min Response time
+  * A list of response times across all requests listed from longest response time to shortest response time.
+  * Average Response time for this URL
+  * HTTP Verb(s) associated with this URL
+  * Three most popular referrers
+  * Three most popular user agents
+
+An error page will be shown if this specific url has not been requested.
+
 * Iteration 8:
 
 ### Other Notes:
