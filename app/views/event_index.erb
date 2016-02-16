@@ -1,15 +1,4 @@
 <div class = "col-md-8 col-md-offset-2 box-it-up text-center">
-<table id="events" class="table table-hover table-condensed">
-  <tr>
-    <th><h3 class="text-center">Event breakdown: </h3></th>
-  </tr>
-    <% stats[:events].each do |event|%>
-    <tr><td>
-      <a href="/sources/<%= client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
-    <td></tr>
-    <% end %>
-</table>
-<div class="text-center title123">
-  <a href = "/sources/<%= client.identifier %>"><h3>Back to statistics for: <%= client.identifier %></h3></a>
-</div>
+<%= erb :_single_column_table, locals: {identifier: identifier, element_name: "event", elements: events, property: :name} %>
+<%= erb :_back_to_statistics, locals: {identifier: identifier} %>
 </div>

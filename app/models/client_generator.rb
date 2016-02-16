@@ -6,8 +6,6 @@ module ClientGenerator
     return [403, "Identifier already exists brah/gal."] if client
 
     client = Client.new(identifier: params[:identifier], root_url: params[:rootUrl])
-
-
     if client.save
       [200, JSON.generate({identifier: "#{client.identifier}"})]
     else
@@ -16,4 +14,5 @@ module ClientGenerator
       [400,"Error: #{key} #{messages[key].first}"]
     end
   end
+
 end

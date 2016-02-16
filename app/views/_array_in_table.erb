@@ -1,0 +1,5 @@
+<% elements.each do |element|%>
+  <td>
+  <a href="/sources/<%= identifier %>/<%= element_name %>s/<%= element.send(methods[:relative_path]) %>"><%= element.send(methods[:address]) %></a>
+  </td>
+<% end %>
