@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   end
 
   def find_event_name
-    payload_requests.map { |pr| pr.event }.first.name
+    name
   end
 
   def total_hits

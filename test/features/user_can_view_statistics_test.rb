@@ -62,7 +62,6 @@ class UserCanViewStatsTest < FeatureTest
     create_n_requests(4, "nickybobby", url: "http://www.nickybobby.com/emojis")
 
     visit '/sources/nickybobby'
-
     within ("#urls") do
       assert page.has_content?("http://www.nickybobby.com/emojis")
       assert page.has_content?("http://www.nickybobby.com/giphys/advanced")

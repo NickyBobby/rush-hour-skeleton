@@ -4,11 +4,19 @@
       <th><%= column_names[0]%></th>
       <th><%= column_names[1]%></th>
     </tr>
+
     <% stats.each do |arr| %>
       <tr><h3>
         <td><%= arr[0] %></td>
-        <td><%= arr[1] %></td>
+        <% if arr[1].class == Array %>
+          <div id=<%= "#{arr[2]}s" %>>
+          <%= erb :_array_in_table, locals: {identifier: identifier, element_name: arr[2], elements: arr[1], methods: arr[3]} %>
+          </div>
+        <% else %>
+          <td><%= arr[1] %></td>
+        <% end %>
       </h3></tr>
     <% end %>
+
   </table>
 </div>
