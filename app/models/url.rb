@@ -49,7 +49,7 @@ class Url < ActiveRecord::Base
   end
 
   def self.most_requests
-    self.all.sort_by { |url| url.payload_requests.count }.reverse
+    self.all.sort_by { |url| -1*url.payload_requests.count }
   end
 
 
