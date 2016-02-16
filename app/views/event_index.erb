@@ -5,9 +5,9 @@
   </tr>
     <% stats[:events].each do |event|%>
     <tr><td>
-      <a href="/sources/<%= client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
+      <a href="/sources/<%= identifier %>/events/<%= event.name %>"><%= event.name %></a>
     <td></tr>
     <% end %>
 </table>
-<%= erb :_back_to_statistics, locals: {identifier: client.identifier} %>
+<%= erb :_back_to_statistics, locals: {identifier: identifier} %>
 </div>
