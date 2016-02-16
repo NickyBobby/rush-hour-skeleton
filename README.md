@@ -37,8 +37,13 @@ The cross-table methods are currently implemented primarily in Ruby. Refactoring
 
 * Iteration 3: In this iteration, we create a new table in the database: Client. A client has two attributes: an identifier and a root_url. A client has many PayloadRequests. Migrations are added here in order to create the table of clients as well create a foreign key in the table payload_requests. The client's identifier should be unique.
 
-* Iteration 4:
+* Iteration 4: Builds out the server path for client to register their application at http://rushhourapp:port/sources through a post request. The server will respond with:
+  * 200 OK if the application has been registered successfully
+  * 400 Bad Request if either identifier or rootUrl are missing in the request
+  * 403 Forbidden if the application identifier already exists in the database
+
 * Iteration 5:
+
 * Iteration 6:
 * Iteration 7:
 * Iteration 8:
