@@ -23,9 +23,9 @@ module ViewFinder
     client = Client.find_by(identifier: identifier)
     stats = client.event_stats(relative_path)
     if stats
-      [:event_stats, {stats: stats}]
+      [:event_stats, {stats: stats, identifier: identifier}]
     else
-      [:no_event, {}]
+      [:no_event, {relative_path: relative_path, identifier: identifier}]
     end
   end
 

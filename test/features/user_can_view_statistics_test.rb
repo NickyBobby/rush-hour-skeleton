@@ -8,9 +8,9 @@ class UserCanViewStatsTest < FeatureTest
 
     assert page.has_content?("nickybobby")
     within ("#stats") do
-      assert page.has_content?("Average response time: ")
-      assert page.has_content?("Max response time: ")
-      assert page.has_content?("Min response time: ")
+      assert page.has_content?("Average response time (ms): ")
+      assert page.has_content?("Max response time (ms): ")
+      assert page.has_content?("Min response time (ms): ")
       assert page.has_content?("Most frequent request type: ")
       assert page.has_content?("All HTTP verbs used: ")
       assert page.has_content?("Requested URLs: ")
@@ -27,9 +27,9 @@ class UserCanViewStatsTest < FeatureTest
     visit '/sources/nickybobby'
 
     within ("#stats") do
-      assert page.has_content?("Average response time: 32.33 ms")
-      assert page.has_content?("Max response time: 40 ms")
-      assert page.has_content?("Min response time: 20 ms")
+      assert page.has_content?("Average response time (ms): 32.33")
+      assert page.has_content?("Max response time (ms): 40")
+      assert page.has_content?("Min response time (ms): 20")
     end
   end
 

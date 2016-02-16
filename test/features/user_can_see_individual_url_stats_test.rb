@@ -26,7 +26,7 @@ class UserCanSeeUrlStatsTest < FeatureTest
     create_n_requests(2, "nickrinna", {url: "http://nickrinna.com/emojis", requestType: "GET"} )
 
     visit '/sources/nickrinna/urls/emojis'
-    #
+
     within ("#url_stats") do
       assert page.has_content?("All HTTP verbs used: POST, GET, PUT")
     end
