@@ -1,6 +1,6 @@
 <div class = "col-md-8 col-md-offset-2 box-it-up">
 <div class="text-center">
-  <h1>Statistics for: <%= client.identifier %></h1>
+  <h1>Statistics for: <%= identifier %></h1>
 </div>
 
 <div class = "table-responsive" id="stats">
@@ -33,7 +33,7 @@
       <h3><td>Requested URLs: </td></h3>
         <% stats[:requested_urls].each do |url|%>
         <td>
-        <a href="/sources/<%= client.identifier %>/urls/<%= url.relative_path %>"><%= url.address %></a>
+        <a href="/sources/<%= identifier %>/urls/<%= url.relative_path %>"><%= url.address %></a>
         </td>
         <% end %>
     </tr>
@@ -41,7 +41,7 @@
       <h3 id="events"><td>Event breakdown: </td></h3>
       <td>
         <% stats[:events].each do |event|%>
-        <a href="/sources/<%= client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
+        <a href="/sources/<%= identifier %>/events/<%= event.name %>"><%= event.name %></a>
         <% end %>
       </td>
     </tr>

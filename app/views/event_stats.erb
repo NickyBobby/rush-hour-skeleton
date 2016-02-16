@@ -116,8 +116,6 @@
       </tr>
     </table>
   </div>
-  <div class="text-center title123">
-    <a href = "/sources/<%= identifier %>"><h3>Back to statistics for: <%= identifier %></h3></a>
-  </div>
+  <%= erb :_back_to_statistics, locals: {identifier: identifier} %>
 </div>
 </div>

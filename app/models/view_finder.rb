@@ -5,7 +5,7 @@ module ViewFinder
     if client.payload_requests.empty?
       [:no_payloads, {identifier: identifier}]
     else
-      [:stats, {stats: client.stats, client: client}]
+      [:stats, {stats: client.stats, identifier: identifier}]
     end
   end
 
