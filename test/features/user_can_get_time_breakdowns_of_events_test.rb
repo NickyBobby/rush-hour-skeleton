@@ -36,13 +36,12 @@ class UserGetsTimeBreakdownOfEventsTest < FeatureTest
 
     visit '/sources/nickrinna/events/adminLogin'
 
-
     within("#no_event") do
       assert page.has_content?("adminLogin event does not exist")
     end
     click_link 'here'
     assert_equal '/sources/nickrinna/events', current_path
-    
+
     within("#events") do
       assert page.has_content?("Event breakdown: ")
       assert page.has_content?("socialLogin")

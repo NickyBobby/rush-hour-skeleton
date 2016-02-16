@@ -3,13 +3,13 @@
   <tr>
     <th><h3 class="text-center">Event breakdown: </h3></th>
   </tr>
-    <% @stats[:events].each do |event|%>
+    <% stats[:events].each do |event|%>
     <tr><td>
-      <a href="/sources/<%= @client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
+      <a href="/sources/<%= client.identifier %>/events/<%= event.name %>"><%= event.name %></a>
     <td></tr>
     <% end %>
 </table>
 <div class="text-center title123">
-  <a href = "/sources/<%= @client.identifier %>"><h3>Back to statistics for: <%= @client.identifier %></h3></a>
+  <a href = "/sources/<%= client.identifier %>"><h3>Back to statistics for: <%= client.identifier %></h3></a>
 </div>
 </div>
