@@ -1,9 +1,11 @@
 <div class = "col-md-8 col-md-offset-2 box-it-up">
-<h1 class = "text-center">Statistics for <%= client.root_url%>/<%= relative_path %></h1>
+
+<% url = "#{client.root_url}\/#{relative_path}" %>
+<%= erb :_statistics_header, locals: { identifier: url } %>
+
 <div class="table-responsive">
   <table class="table table-hover table-condensed">
-    <div class = "" id="url_stats">
-
+    <div id="url_stats">
       <tr class="success">
         <th>Stats</th>
         <th>Values</th>

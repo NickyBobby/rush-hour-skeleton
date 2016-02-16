@@ -1,11 +1,12 @@
 
 <% grouped = stats[:hours] %>
-<div class = "col-md-8 col-md-offset-2">
-<div class = "box-it-up" id="event_stats">
-  <div class="text-center">
+<div class = "col-md-8 col-md-offset-2 box-it-up">
+<%= erb :_statistics_header, locals: { identifier: stats[:event_name] } %>
+<div id="event_stats">
+  <!-- <div class="text-center">
     <h1>Event Stats</h1>
     <h2>Event name: <%= stats[:event_name] %></h2>
-  </div>
+  </div> -->
 
 
   <div class="table-responsive">

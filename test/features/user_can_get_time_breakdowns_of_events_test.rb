@@ -17,8 +17,8 @@ class UserGetsTimeBreakdownOfEventsTest < FeatureTest
     click_link "clientLogin"
     assert_equal '/sources/nickrinna/events/clientLogin', current_path
 
+    assert page.has_content?("Statistics for clientLogin")
     within("#event_stats") do
-      assert page.has_content?("Event name: clientLogin")
       assert page.has_content?("Total 24 hour breakdown: 6")
       assert page.has_content?("Between 9 and 10 PM: 6")
     end
