@@ -1,0 +1,10 @@
+<table id="<%= element_name %>s" class="table table-hover table-condensed">
+  <tr>
+    <th><h3 class="text-center"><%= element_name.capitalize %> breakdown: </h3></th>
+  </tr>
+  <% elements.each do |element|%>
+    <tr><td>
+      <a href="/sources/<%= identifier %>/<%= element_name %>s/<%= element.send(property) %>"><%= element.send(property) %></a>
+    <td></tr>
+  <% end %>
+</table>
