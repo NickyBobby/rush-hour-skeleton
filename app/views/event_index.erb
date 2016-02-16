@@ -1,6 +1,7 @@
+<div class = "col-md-8 col-md-offset-2 box-it-up text-center">
 <table id="events" class="table table-hover table-condensed">
   <tr>
-    <th><h3>Event breakdown: </h3></th>
+    <th><h3 class="text-center">Event breakdown: </h3></th>
   </tr>
     <% @stats[:events].each do |event|%>
     <tr><td>
@@ -8,3 +9,7 @@
     <td></tr>
     <% end %>
 </table>
+<div class="text-center title123">
+  <a href = "/sources/<%= @client.identifier %>"><h3>Back to statistics for: <%= @client.identifier %></h3></a>
+</div>
+</div>
