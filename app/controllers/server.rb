@@ -14,21 +14,9 @@ module RushHour
     end
 
     post '/sources/:identifier/data' do |identifier|
-      raw_payload = JSON.parse(params[:payload], symbolize_names: true)
-      client = Client.find_by(identifier: identifier)
-      if !client
-        status 403
-        body "#{identifier} not found. Cool story brah/gal."
-      elsif PayloadRequest.find_by(PayloadParser.get_payload_details(raw_payload, client))# false if we have seen this payload request before
-        status 403
-        body "Error: Payload Request already received"
-      elsif errors = PayloadParser.parse(raw_payload, identifier)
-        status 400
-        body "Error: "
-      else
-        status 200
-        body "Great success"
-      end
+      status_code, message = PayloadGenerator.register_payload(params, identifier)
+      status(status_code)
+      body(message)
     end
 
     get '/sources/:identifier' do |identifier|

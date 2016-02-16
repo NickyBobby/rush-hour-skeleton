@@ -20,7 +20,7 @@ class PayloadParserTest < Minitest::Test
     assert_equal "1280", pr.resolution.height
     assert_equal "63.29.38.211", pr.ip.address
     assert_equal "jumpstartlab", pr.client.identifier
-    assert_equal "56992f63bab9f69b92ac17fbd913a1c88ccf9afb2b0576b0c5dae7746ee072fc", pr.payload_sha
+    assert_equal "36a0615e2a2fc42e53e4a21f44cb39e4a641dfc546360b82031423bb064221db", pr.payload_sha
   end
 
   def test_parser_will_create_new_payload_request_with_minute_detail_changes
@@ -43,7 +43,7 @@ class PayloadParserTest < Minitest::Test
     assert_equal "1280", pr.resolution.height
     assert_equal "63.29.38.211", pr.ip.address
     assert_equal "jumpstartlab", pr.client.identifier
-    assert_equal "8b02ac3279195a7e3795d2b614fa10b192c43d4e53388370b30207dcf57e95ad", pr.payload_sha
+    assert_equal "2d50144e616b37d23c1dce54d5a95e2b192822227d9ceef903be40d32abad746", pr.payload_sha
   end
 
 end

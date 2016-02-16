@@ -5,8 +5,7 @@ class PayloadParser
   def self.parse(data, identifier)
     client = Client.find_by(identifier: identifier)
     details = get_payload_details(data, client)
-    pr = PayloadRequest.find_or_initialize_by(details)
-    pr.payload_sha = payload_sha(pr)
+    pr = PayloadRequest.find_or_initialize_by(details.merge(payload_sha: payload_sha(data, identifier)))
     pr.save
     pr.errors unless pr.valid?
   end
@@ -30,6 +29,7 @@ class PayloadParser
   def self.parse_user_agent(data)
     browser = nil
     platform = nil
+
     if data[:userAgent] && !data[:userAgent].empty?
       ua = UserAgentParser.parse(data[:userAgent])
       browser = ua.family
@@ -38,8 +38,9 @@ class PayloadParser
     [browser, platform]
   end
 
-  def self.payload_sha(pr)
-    payload = "#{pr.url_id}#{pr.requested_at}#{pr.responded_in}#{pr.referrer_id}#{pr.request_id}#{pr.event_id}#{pr.user_agent_id}#{pr.resolution_id}#{pr.ip_id}#{pr.client_id}"
+  def self.payload_sha(data, identifier)
+    browser, platform = parse_user_agent(data)
+    payload = "#{data[:url]}#{data[:requestedAt]}#{data[:respondedIn]}#{data[:referredBy]}#{data[:requestType]}#{data[:eventName]}#{browser}#{platform}#{data[:resolutionWidth]}#{data[:resolutionHeight]}#{data[:ip]}#{identifier}"
     Digest::SHA256.hexdigest(payload)
   end
 
