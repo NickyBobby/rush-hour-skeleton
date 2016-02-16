@@ -20,17 +20,8 @@ module RushHour
     end
 
     get '/sources/:identifier' do |identifier|
-      @client = Client.find_by(identifier: identifier)
-      @client_identifier = identifier
-      if @client && !@client.payload_requests.empty?
-        @stats = @client.stats
-        # binding.pry
-        erb :stats
-      elsif @client && @client.payload_requests.empty?
-        erb :no_payloads
-      else
-        erb :not_registered
-      end
+      view, locals = ViewFinder.get_client_stats(identifier)
+      erb view, locals: locals
     end
 
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
@@ -51,7 +42,6 @@ module RushHour
       @client = Client.find_by(identifier: identifier)
       @stats = @client.event_stats(relative_path)
       @grouped = @stats[:hours]
-      # binding.pry
       if @stats
         erb :event_stats
       else
