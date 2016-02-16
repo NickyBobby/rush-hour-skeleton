@@ -1,6 +1,3 @@
-require 'pry'
-require 'json'
-
 module RushHour
   class Server < Sinatra::Base
     not_found do
