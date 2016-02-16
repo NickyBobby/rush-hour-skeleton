@@ -2,24 +2,22 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link rel="stylesheet" href="/app/public/application.css">
+  <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:900' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/application.css">
   <title>Nickrinna Rushing the Hour</title>
 </head>
 <body>
-    <header class='primary-header container group'>
-        <h1 class='logo'>
-          <a href='/sources' class='navbar-brand'><h1>Rushing The Hour with Nickrinna!!</h1></a>
-        </h1>
-        <ul class='nav navbar-nav navbar-right'>
-          <li><a href = "/sources"><h1>Stats</h1></a></li>
-        </ul>
-    </header><br><br>
+    <div class = "color-me-grey">
+    <header class='primary-header container group text-center'>
+      <h1 class="title123">Rushing The Hour with Nickrinna!!</h1>
+    </header>
     <div class="container">
 
 
       <%= yield %>
 
     </div>
+    <br><br>
     <footer class="primary-footer container group">
       <div class="col-md-12 text-center">
         <h3 class="glyphicon glyphicon-heart" aria-hidden="true">        </h3>
@@ -31,5 +29,6 @@
      <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
      <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
      <script src='js/bootstrap.js'></script>
+   </div>
  </body>
 </html>
