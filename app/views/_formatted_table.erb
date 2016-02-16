@@ -1,0 +1,14 @@
+<div class = "table-responsive" id="<%= table_id %>">
+  <table class="table table-hover table-condensed">
+    <tr class="success">
+      <th><%= column_names[0]%></th>
+      <th><%= column_names[1]%></th>
+    </tr>
+    <% stats.each do |arr| %>
+      <tr><h3>
+        <td><%= arr[0] %></td>
+        <td><%= arr[1] %></td>
+      </h3></tr>
+    <% end %>
+  </table>
+</div>

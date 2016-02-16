@@ -29,15 +29,24 @@ class Client < ActiveRecord::Base
   def url_stats(relative_path)
     url = Url.find_by(address: "#{root_url}/#{relative_path}")
     return unless url
-    ({
-      max_response_time: url.find_max_response_time,
-      min_response_time: url.find_min_response_time,
-      average_response_time: url.find_average_response_time,
-      response_times: url.list_response_times.join(", "),
-      all_http_verbs: url.http_verbs.join(", "),
-      top_three_referrers: url.most_popular_referrers.join(", "),
-      top_three_user_agents: url.most_popular_useragents.join(", ")
-    })
+    # ({
+    #   max_response_time: url.find_max_response_time,
+    #   min_response_time: url.find_min_response_time,
+    #   average_response_time: url.find_average_response_time,
+    #   response_times: url.list_response_times.join(", "),
+    #   all_http_verbs: url.http_verbs.join(", "),
+    #   top_three_referrers: url.most_popular_referrers.join(", "),
+    #   top_three_user_agents: url.most_popular_useragents.join(", ")
+    # })
+    [
+      ["Max response time (ms): ", url.find_max_response_time,],
+      ["Min response time (ms): ",url.find_min_response_time,],
+      ["Average response time (ms): ", url.find_average_response_time,],
+      ["All response times (ms): ", url.list_response_times.join(", "),],
+      ["All HTTP verbs used: ", url.http_verbs.join(", "),],
+      ["Top three most popular referrers: ", url.most_popular_referrers.join(", "),],
+      ["Top three most popular user agents: ", url.most_popular_useragents.join(", ")]
+    ]
   end
 
   def event_stats(event_name=nil)
