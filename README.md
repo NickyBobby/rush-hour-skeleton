@@ -76,7 +76,11 @@ The following statistics are available:
 
 An error page will be shown if this specific url has not been requested.
 
-* Iteration 8:
+* Iteration 8: Similar to iterations 6 & 7, the client can now access a 24-hour breakdown of specific type of events. The location can be found at: http://rushhourapp:port/sources/IDENTIFIER/events/EVENTNAME or is also accessible in the client's main statistics page.
+
+When there is no event that is given by EVENTNAME, an error page will be shown.
 
 ### Other Notes:
 The final database structure looks like:
+![](/app/public/final-database.png)
+This varies from the structure show in iteration 1 by the addition of the clients table as well as a unique identifier for payloads, that is implemented using a SHA-256 algorithm.
