@@ -42,13 +42,28 @@ The cross-table methods are currently implemented primarily in Ruby. Refactoring
   * 400 Bad Request if either identifier or rootUrl are missing in the request
   * 403 Forbidden if the application identifier already exists in the database
 
+
 * Iteration 5: Builds out the server path for a client to send their payload data at http://rushhourapp:port/sources/IDENTIFIER/data through a post request. The server will respond with:
   * 200 OK if the payload request is unique and valid. The server will store this request in its database
   * 400 Bad Request if the payload is missing or cannot be loaded
   * 403 Forbidden if the payload request has already been received
   * 403 Forbidden if the data is submitted to an application (identifier) that has not been previously registered
 
-* Iteration 6:
+
+* Iteration 6: For a specific client, the following statistics can be found at http://rushhourapp:port/sources/IDENTIFIER
+  * Average Response time across all requests
+  * Max Response time across all requests
+  * Min Response time across all requests
+  * Most frequent request type
+  * List of all HTTP verbs used
+  * List of URLs listed form most requested to least requested
+  * Web browser breakdown across all requests
+  * OS breakdown across all requests
+  * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
+
+If the identifier does NOT exist, an error page will tell the client that they have not registered.
+If the identifier does exist, but no payload data can be found, the client will be informed that no payload data has been found.
+
 * Iteration 7:
 * Iteration 8:
 
