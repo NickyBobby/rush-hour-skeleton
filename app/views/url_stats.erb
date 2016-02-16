@@ -1,17 +1,13 @@
-<% client= Client.find_by(identifier: @identifier) %>
-<h1 class = "text-center">Stats for <%= client.root_url%>/<%= @relative_path %>:</h1>
+<h1 class = "text-center">Stats for <%= client.root_url%>/<%= relative_path %>:</h1>
 
 <div class = "col-md-8 col-md-offset-2" id="url_stats">
-  <h3>Average response time (ms): <%= @stats[:average_response_time] %></h3>
-  <h3>Max response time (ms): <%= @stats[:max_response_time] %></h3>
-  <h3>Min response time (ms): <%= @stats[:min_response_time] %></h3>
-  <h3>All response times (ms): <%= @stats[:response_times] %></h3>
+  <h3>Average response time (ms): <%= stats[:average_response_time] %></h3>
+  <h3>Max response time (ms): <%= stats[:max_response_time] %></h3>
+  <h3>Min response time (ms): <%= stats[:min_response_time] %></h3>
+  <h3>All response times (ms): <%= stats[:response_times] %></h3>
 
-  <h3>All HTTP verbs used: <%= @stats[:all_http_verbs] %></h3>
-  <h3>Top three most popular referrers: <%= @stats[:top_three_referrers] %></h3>
-  <h3>Top three most popular user agents: <%= @stats[:top_three_user_agents] %></h3>
+  <h3>All HTTP verbs used: <%= stats[:all_http_verbs] %></h3>
+  <h3>Top three most popular referrers: <%= stats[:top_three_referrers] %></h3>
+  <h3>Top three most popular user agents: <%= stats[:top_three_user_agents] %></h3>
 
-  <!-- <h3>Web browser breakdown: <%= @stats[:browsers] %></h3>
-  <h3>OS breakdown: <%= @stats[:os] %></h3>
-  <h3>Screen resolutions: <%= @stats[:resolutions] %></h3> -->
 </div>

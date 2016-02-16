@@ -25,30 +25,14 @@ module RushHour
     end
 
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
-      @identifier = identifier
-      @relative_path = relative_path
-      @client = Client.find_by(identifier: identifier)
-      @stats = @client.url_stats(relative_path)
-      if @stats
-        erb :url_stats
-      else
-        erb :no_url
-      end
+      view, locals = ViewFinder.get_url_stats(identifier, relative_path)
+      erb view, locals: locals
     end
 
     get '/sources/:identifier/events/:relative_path' do |identifier, relative_path|
-      @identifier = identifier
-      @relative_path = relative_path
-      @client = Client.find_by(identifier: identifier)
-      @stats = @client.event_stats(relative_path)
-      @grouped = @stats[:hours]
-      if @stats
-        erb :event_stats
-      else
-        erb :no_event
-      end
+      view, locals = ViewFinder.get_event_stats(identifier, relative_path)
+      erb view, locals: locals
     end
-
 
   end
 end

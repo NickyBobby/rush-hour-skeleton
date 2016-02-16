@@ -8,4 +8,25 @@ module ViewFinder
       [:stats, {stats: client.stats, client: client}]
     end
   end
+
+  def self.get_url_stats(identifier, relative_path)
+    client = Client.find_by(identifier: identifier)
+    stats = client.url_stats(relative_path)
+    if stats
+      [:url_stats, {relative_path: relative_path, stats: stats, client: client}]
+    else
+      [:no_url, {relative_path: relative_path}]
+    end
+  end
+
+  def self.get_event_stats(identifier, relative_path)
+    client = Client.find_by(identifier: identifier)
+    stats = client.event_stats(relative_path)
+    if stats
+      [:event_stats, {stats: stats}]
+    else
+      [:no_event, {}]
+    end
+  end
+
 end
