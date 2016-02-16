@@ -8,24 +8,9 @@ module RushHour
     end
 
     post '/sources' do
-      client = Client.find_or_initialize_by(identifier: params["identifier"], root_url: params["rootUrl"])
-
-      if !client.id && client.valid?
-        client.save
-        status 200
-        body JSON.generate({:identifier => "#{client.identifier}"})
-      elsif client.id
-        status 403
-        body "Identifier already exists brah/gal."
-      else
-        messages = client.errors.messages
-        status 400
-        body "Error: #{messages}"
-      end
-
-      # status, body = ClientGenerator.new.method(params)
-      # status(status)
-      # body(body)
+      status_code, message = ClientGenerator.register_client(params)
+      status(status_code)
+      body(message)
     end
 
     post '/sources/:identifier/data' do |identifier|
