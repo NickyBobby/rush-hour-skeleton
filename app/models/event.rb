@@ -16,13 +16,9 @@ class Event < ActiveRecord::Base
 
   def grouped_hours
     grouped = {}
-    (0..23).each do |i|
-      grouped[i] = 0
-    end
+    (0..23).each { |i| grouped[i] = 0 }
     event_hours = payload_requests.map { |pr| Time.parse(pr.requested_at).hour }
-    event_hours.each do |hour|
-      grouped[hour]+=1
-    end
+    event_hours.each { |hour| grouped[hour] += 1 }
     grouped
   end
 

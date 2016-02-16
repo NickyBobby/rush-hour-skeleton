@@ -28,9 +28,7 @@ class Url < ActiveRecord::Base
 
   def most_popular_useragents
     gb = payload_requests.group_by {|pr| pr.user_agent}
-    sorted = gb.sort_by do |key, value|
-      -1*value.length
-    end
+    sorted = gb.sort_by { |key, value| value.length }.reverse
     sorted.map { |ua, prs| "#{ua.platform} #{ua.browser}"}.first(3)
   end
 
@@ -51,10 +49,7 @@ class Url < ActiveRecord::Base
   end
 
   def self.most_requests
-    #.joins(:payload_requests).group("urls.address").count
-    self.all.sort_by do |url|
-      -1*url.payload_requests.count
-    end
+    self.all.sort_by { |url| -1*url.payload_requests.count }
   end
 
 

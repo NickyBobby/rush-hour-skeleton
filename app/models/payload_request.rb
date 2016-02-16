@@ -35,8 +35,7 @@ class PayloadRequest < ActiveRecord::Base
 
   def self.find_most_frequent_request_type
     id = self.group(:request_id).order('count(*) DESC').pluck(:request_id).first
-    r = Request.find(id)
-    r.verb
+    Request.find(id).verb
   end
 
   def self.find_all_http_verbs
@@ -45,10 +44,8 @@ class PayloadRequest < ActiveRecord::Base
   end
 
   def self.return_ordered_list_of_urls
-    #joins(:url).group("urls.address").order('count(*) DESC').count
     url_ids = self.group(:url_id).order('count(*) DESC').pluck(:url_id)
     url_ids.map { |id| Url.find(id) }
-
   end
 
   def self.ranked_events
