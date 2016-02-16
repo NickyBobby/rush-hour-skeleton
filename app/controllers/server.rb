@@ -72,20 +72,25 @@ module RushHour
       end
     end
 
+    get '/sources/:identifier/events' do |identifier|
+      @client = Client.find_by(identifier: identifier)
+      @stats = @client.stats
+      erb :event_index
+    end
+
     get '/sources/:identifier/events/:relative_path' do |identifier, relative_path|
       @identifier = identifier
       @relative_path = relative_path
       @client = Client.find_by(identifier: identifier)
       @stats = @client.event_stats(relative_path)
-      @grouped = @stats[:hours]
       # binding.pry
       if @stats
+        @grouped = @stats[:hours]
         erb :event_stats
       else
         erb :no_event
       end
     end
-
 
   end
 end

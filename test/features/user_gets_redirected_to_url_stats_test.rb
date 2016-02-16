@@ -13,7 +13,7 @@ class UserGetsUrlStatsTest < FeatureTest
     click_link("http://nickrinna.com/giphys")
 
     assert_equal '/sources/nickrinna/urls/giphys', current_path
-    assert page.has_content?("Stats for http://nickrinna.com/giphys:")
+    assert page.has_content?("Statistics for http://nickrinna.com/giphys")
 
   end
 end

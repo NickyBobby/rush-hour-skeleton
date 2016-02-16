@@ -40,7 +40,7 @@ class Client < ActiveRecord::Base
     })
   end
 
-  def event_stats(event_name)
+  def event_stats(event_name=nil)
     event = Event.find_by(name: "#{event_name}")
     return unless event
     ({

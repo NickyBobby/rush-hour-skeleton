@@ -1,0 +1,17 @@
+nick {
+  width: 50%;
+  background: #CFD8DC;
+}
+
+.title123 {
+  font-family: 'Source Code Pro';
+
+}
+.color-me-grey {
+  background-color: #CFD8DC;
+}
+
+.box-it-up {
+  border: 2px solid black;
+  background-color: white;
+}
