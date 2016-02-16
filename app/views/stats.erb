@@ -1,8 +1,10 @@
-
-<div class = "" id="stats">
+<div class="text-center">
   <h1>Statistics for: <%= @client.identifier %></h1>
+</div>
+
+<div class = "table-responsive" id="stats">
   <table class="table table-hover table-condensed">
-    <tr>
+    <tr class="success">
       <th>Stats</th>
       <th>Values</th>
     </tr>
@@ -26,13 +28,13 @@
       <h3><td>All HTTP verbs used: </td></h3>
       <td><%= @stats[:all_http_verbs] %></td>
     </tr>
-    <tr>
-      <h3 id="urls"><td>Requested URLs: <td></h3>
-      <td>
+    <tr id="urls">
+      <h3><td>Requested URLs: </td></h3>
         <% @stats[:requested_urls].each do |url|%>
+        <td>
         <a href="/sources/<%= @client.identifier %>/urls/<%= url.relative_path %>"><%= url.address %></a>
+        </td>
         <% end %>
-      </td>
     </tr>
     <tr>
       <h3 id="events"><td>Event breakdown: </td></h3>
@@ -47,7 +49,7 @@
       <td><%= @stats[:browsers] %></td>
     </tr>
     <tr>
-      <h3><td>OS breakdown: <td></h3>
+      <h3><td>OS breakdown: </td></h3>
       <td><%= @stats[:os] %></td>
     </tr>
     <tr>

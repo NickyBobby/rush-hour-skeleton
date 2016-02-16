@@ -1,40 +1,42 @@
 <% client= Client.find_by(identifier: @identifier) %>
 <h1 class = "text-center">Stats for <%= client.root_url%>/<%= @relative_path %>:</h1>
-<table class="table table-hover table-condensed">
-  <div class = "" id="url_stats">
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <div class = "" id="url_stats">
 
-    <tr>
-      <th>Stats</th>
-      <th>Values</th>
-    </tr>
-    <tr>
-      <td>Average response time (ms): </td>
-      <td><%= @stats[:average_response_time] %></td>
-    </tr>
-    <tr>
-      <td>Max response time (ms): </td>
-      <td><%= @stats[:max_response_time] %></td>
-    </tr>
-    <tr>
-      <td>Min response time (ms): </td>
-      <td><%= @stats[:min_response_time] %></td>
-    </tr>
-    <tr>
-      <td>All response times (ms): </td>
-      <td><%= @stats[:response_times] %></td>
-    </tr>
-    <tr>
-      <td>All HTTP verbs used: </td>
-      <td><%= @stats[:all_http_verbs] %></td>
-    </tr>
-    <tr>
-      <td>Top three most popular referrers: </td>
-      <td><%= @stats[:top_three_referrers] %></td>
-    </tr>
-    <tr>
-      <td>Top three most popular user agents: </td>
-      <td><%= @stats[:top_three_user_agents] %></td>
-    </tr>
+      <tr class="success">
+        <th>Stats</th>
+        <th>Values</th>
+      </tr>
+      <tr>
+        <td>Average response time (ms): </td>
+        <td><%= @stats[:average_response_time] %></td>
+      </tr>
+      <tr>
+        <td>Max response time (ms): </td>
+        <td><%= @stats[:max_response_time] %></td>
+      </tr>
+      <tr>
+        <td>Min response time (ms): </td>
+        <td><%= @stats[:min_response_time] %></td>
+      </tr>
+      <tr>
+        <td>All response times (ms): </td>
+        <td><%= @stats[:response_times] %></td>
+      </tr>
+      <tr>
+        <td>All HTTP verbs used: </td>
+        <td><%= @stats[:all_http_verbs] %></td>
+      </tr>
+      <tr>
+        <td>Top three most popular referrers: </td>
+        <td><%= @stats[:top_three_referrers] %></td>
+      </tr>
+      <tr>
+        <td>Top three most popular user agents: </td>
+        <td><%= @stats[:top_three_user_agents] %></td>
+      </tr>
 
-  </div>
-</table>
+    </div>
+  </table>
+</div>
