@@ -27,13 +27,11 @@ module RushHour
     end
 
     get '/sources/:identifier/events' do |identifier|
-      @client = Client.find_by(identifier: identifier)
-      @stats = @client.stats
-      erb :event_index
+      view, locals = ViewFinder.get_client_stats(identifier)
+      erb :event_index, locals: locals
     end
 
     get '/sources/:identifier/events/:relative_path' do |identifier, relative_path|
-
       view, locals = ViewFinder.get_event_stats(identifier, relative_path)
       erb view, locals: locals
     end
