@@ -61,7 +61,7 @@ module TestHelpers
     end
   end
 
-  def create_n_requests(n, identifier, data)
+  def create_n_requests(n, identifier, data = {})
     if data.keys.include?(:eventName)
       varkey = :ip
     else

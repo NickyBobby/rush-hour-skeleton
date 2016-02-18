@@ -82,4 +82,12 @@ class PayloadRequest < ActiveRecord::Base
     event_name_ids.map { |id| Event.find(id) }
   end
 
+  def self.grouped_hours(prs)
+    grouped = {}
+    (0..23).each { |i| grouped[i] = 0 }
+    event_hours = prs.map { |pr| Time.parse(pr.requested_at).hour }
+    event_hours.each { |hour| grouped[hour] += 1 }
+    grouped
+  end
+
 end
