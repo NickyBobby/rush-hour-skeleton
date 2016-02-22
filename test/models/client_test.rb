@@ -70,4 +70,14 @@ class ClientTest < Minitest::Test
     assert_equal "http://www.jumpstartlab.com", client.root_url
     assert_equal [UserAgent.find_by(browser: "Chrome"), UserAgent.find_by(browser: "Firefox")], client.user_agents
   end
+
+  def test_client_has_stats_on_its_own_events
+    load_default_request("google")
+    create_n_requests(3, "jumpstartlab", eventName: "socialLogin")
+    create_n_requests(1, "jumpstartlab", eventName: "adminRequest")
+    client = Client.find_by(identifier: "jumpstartlab")
+
+    assert_includes client.event_stats("socialLogin"), ["Between  9 PM and 10 PM: ", 3]
+    assert true
+  end
 end

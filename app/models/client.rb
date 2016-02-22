@@ -42,9 +42,11 @@ class Client < ActiveRecord::Base
   end
 
   def event_stats(event_name=nil)
-    event = Event.find_by(name: "#{event_name}")
+    event = events.find_by(name: event_name)
+    prs = PayloadRequest.where(event: event, client: self)
+
     return unless event
-    [["Total 24 hour breakdown: ", event.total_hits]] + map_hours_to_bins(event.grouped_hours)
+    [["Total 24 hour breakdown: ", prs.count]] + map_hours_to_bins(PayloadRequest.grouped_hours(prs))
   end
 
   def map_hours_to_bins(grouped_times)
